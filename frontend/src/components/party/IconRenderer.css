@@ -1,0 +1,67 @@
+/* frontend/src/components/party/IconRenderer.css */
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.icon--small {
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+.icon--normal {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.icon--large {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.icon--xlarge {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.icon--spin {
+  animation: icon-spin 2s linear infinite;
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.icon--pulse {
+  animation: icon-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes icon-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.icon--bounce {
+  animation: icon-bounce 0.5s ease-out;
+}
+
+@keyframes icon-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}

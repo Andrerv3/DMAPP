@@ -1,6 +1,12 @@
 // frontend/src/components/party/SearchDialog.jsx
 import { useState, useMemo } from 'react'
 import './SearchDialog.css'
+import {
+  getSpellSchoolIcon,
+  getMonsterTypeIcon,
+  getItemTypeIcon,
+  getDamageTypeIcon,
+} from '../../data/iconMap'
 
 // Sample data - in production this would come from API or local data
 const SAMPLE_SPELLS = [
@@ -93,19 +99,19 @@ export default function SearchDialog({ isOpen, onClose, onSelect }) {
             className={`search-dialog__tab ${activeTab === TABS.SPELLS ? 'search-dialog__tab--active' : ''}`}
             onClick={() => setActiveTab(TABS.SPELLS)}
           >
-            <i className="ra ra-fire" /> Spells
+            <i className={`ra ${getSpellSchoolIcon('evocation')}`} /> Spells
           </button>
           <button 
             className={`search-dialog__tab ${activeTab === TABS.MONSTERS ? 'search-dialog__tab--active' : ''}`}
             onClick={() => setActiveTab(TABS.MONSTERS)}
           >
-            <i className="ra ra-monster-skull" /> Monsters
+            <i className={`ra ${getMonsterTypeIcon('monstrosity')}`} /> Monsters
           </button>
           <button 
             className={`search-dialog__tab ${activeTab === TABS.ITEMS ? 'search-dialog__tab--active' : ''}`}
             onClick={() => setActiveTab(TABS.ITEMS)}
           >
-            <i className="ra ra-vase" /> Items
+            <i className={`ra ${getItemTypeIcon('weapon')}`} /> Items
           </button>
         </div>
 
@@ -127,12 +133,12 @@ export default function SearchDialog({ isOpen, onClose, onSelect }) {
                 <>
                   <div className="search-dialog__item-header">
                     <span className="search-dialog__item-name">{item.name}</span>
-                    <span className="search-dialog__item-level">Level {item.level} {item.school}</span>
+                    <span className="search-dialog__item-level">Level {item.level} <i className={`ra ${getSpellSchoolIcon(item.school)}`} /> {item.school}</span>
                   </div>
                   <div className="search-dialog__item-details">
                     <span><i className="ra ra-clock" /> {item.castingTime}</span>
                     <span><i className="ra ra-target" /> {item.range}</span>
-                    {item.damage && <span><i className="ra ra-flame" /> {item.damage}</span>}
+                    {item.damage && <span><i className={`ra ${getDamageTypeIcon(item.damage?.toLowerCase().includes('fire') ? 'fire' : 'force')}`} /> {item.damage}</span>}
                   </div>
                 </>
               )}
@@ -140,11 +146,11 @@ export default function SearchDialog({ isOpen, onClose, onSelect }) {
                 <>
                   <div className="search-dialog__item-header">
                     <span className="search-dialog__item-name">{item.name}</span>
-                    <span className="search-dialog__item-level">CR {item.cr} {item.type}</span>
+                    <span className="search-dialog__item-level">CR {item.cr} <i className={`ra ${getMonsterTypeIcon(item.type)}`} /> {item.type}</span>
                   </div>
                   <div className="search-dialog__item-details">
                     <span><i className="ra ra-heart-shield" /> HP {item.hp} AC {item.ac}</span>
-                    <span><i className="ra ra-pawprint" /> {item.size}</span>
+                    <span><i className={`ra ${getMonsterTypeIcon(item.size)}`} /> {item.size}</span>
                   </div>
                 </>
               )}
@@ -152,7 +158,7 @@ export default function SearchDialog({ isOpen, onClose, onSelect }) {
                 <>
                   <div className="search-dialog__item-header">
                     <span className="search-dialog__item-name">{item.name}</span>
-                    <span className="search-dialog__item-level">{item.type}</span>
+                    <span className="search-dialog__item-level"><i className={`ra ${getItemTypeIcon(item.type)}`} /> {item.type}</span>
                   </div>
                   <div className="search-dialog__item-details">
                     {item.value && <span><i className="ra ra-gold-bar" /> {item.value}</span>}
