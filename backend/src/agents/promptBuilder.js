@@ -9,6 +9,7 @@ import { readFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { getToneDescriptor, RECENT_TURNS_WINDOW } from '../config/constants.js'
+import { RPGDataService } from '../data/rpgData.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const PROMPT_DIR = join(__dirname, '../../../ai-engine/prompts')
@@ -27,6 +28,15 @@ function loadTemplate(name) {
 
 const BASE_SYSTEM = readFileSync(join(PROMPT_DIR, 'system.base.txt'), 'utf8')
 
+// Cache RPG context data
+let rpgContextCache = null
+function getRPGContext(gameSystem) {
+  if (!rpgContextCache && gameSystem === 'dnd5e') {
+    rpgContextCache = RPGDataService.getAIContext(gameSystem)
+  }
+  return rpgContextCache
+}
+
 export const PromptBuilder = {
   /**
    * @param {object} state - full game state
@@ -42,6 +52,9 @@ export const PromptBuilder = {
     // Use active character for context, fallback to single player
     const character = activeCharacter || state.player
 
+    // Get RPG context data for D&D 5e
+    const rpgContext = getRPGContext(state.game_system)
+
     const systemPrompt = [
       BASE_SYSTEM,
       `SYSTEM: ${template}`,
@@ -49,7 +62,8 @@ export const PromptBuilder = {
       `MODE: ${state.mode ?? 'exploration'}`,
       buildWorldContext(state),
       buildCharacterContext(state, character),
-    ].join('\n\n')
+      rpgContext ? buildRPGContext(rpgContext, character) : null,
+    ].filter(Boolean).join('\n\n')
 
     const userPrompt = [
       buildHistory(state),
@@ -160,4 +174,37 @@ Respond ONLY in valid JSON:
 }
 
 Rules: 3 options exactly. No modern language. No AI references. Do not end the story.`
+}
+
+// --- RPG Context Builder ---
+
+function buildRPGContext(rpgContext, character) {
+  if (!rpgContext) return null
+
+  // Get available spells for character class
+  const charClass = character?.class?.toLowerCase()
+  const availableSpells = charClass && rpgContext.spellSummary?.[charClass]
+    ? rpgContext.spellSummary[charClass]
+    : []
+
+  const classInfo = rpgContext.classes?.find(c => 
+    c.name?.toLowerCase() === charClass
+  )
+
+  const classDetails = classInfo
+    ? `CLASS: ${classInfo.name} (Hit Die: d${classInfo.hitDie}, Primary: ${classInfo.primaryAbility}, Saves: ${classInfo.savingThrows?.join(', ')})`
+    : ''
+
+  const spellsInfo = availableSpells.length > 0
+    ? `AVAILABLE SPELLS: ${availableSpells.map(s => `${s.name}(Lv${s.level}, ${s.school})`).join(', ')}`
+    : ''
+
+  const gameDataInfo = `GAME DATA: ${rpgContext.totalSpells} spells, ${rpgContext.totalMonsters} monsters, ${rpgContext.totalItems} items in database`
+
+  return [
+    '--- GAME MECHANICS ---',
+    classDetails,
+    spellsInfo,
+    gameDataInfo
+  ].filter(Boolean).join('\n')
 }

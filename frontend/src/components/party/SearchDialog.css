@@ -1,0 +1,282 @@
+/* frontend/src/components/party/SearchDialog.css */
+
+.search-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-4);
+  animation: fadeIn var(--transition-fast) ease;
+}
+
+.search-dialog {
+  width: 100%;
+  max-width: 600px;
+  max-height: 80vh;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--fantasy-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl), 0 0 40px var(--color-glow-gold);
+  animation: scaleIn var(--transition-normal) ease;
+}
+
+.search-dialog__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--fantasy-border);
+  background: linear-gradient(180deg, var(--color-bg-elevated) 0%, var(--color-bg-surface) 100%);
+}
+
+.search-dialog__header h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-gold-400);
+  margin: 0;
+}
+
+.search-dialog__header h2 i {
+  font-size: 20px;
+}
+
+.search-dialog__close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  color: var(--color-text-dim);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.search-dialog__close:hover {
+  background: var(--color-danger-900);
+  border-color: var(--color-danger-500);
+  color: var(--color-danger-400);
+}
+
+/* Tabs */
+.search-dialog__tabs {
+  display: flex;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  background: var(--color-bg-deep);
+  border-bottom: 1px solid var(--fantasy-border);
+}
+
+.search-dialog__tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--color-text-dim);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.search-dialog__tab:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text-secondary);
+}
+
+.search-dialog__tab--active {
+  background: var(--color-gold-900);
+  border-color: var(--color-gold-500);
+  color: var(--color-gold-300);
+}
+
+.search-dialog__tab i {
+  font-size: 16px;
+}
+
+/* Search Input */
+.search-dialog__search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-input);
+  border-bottom: 1px solid var(--fantasy-border);
+}
+
+.search-dialog__search i {
+  font-size: 18px;
+  color: var(--color-text-dim);
+}
+
+.search-dialog__search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+}
+
+.search-dialog__search input:focus {
+  outline: none;
+}
+
+.search-dialog__search input::placeholder {
+  color: var(--color-text-dim);
+}
+
+/* Results */
+.search-dialog__results {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2);
+  max-height: 400px;
+}
+
+.search-dialog__item {
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.search-dialog__item:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-gold-500);
+  transform: translateX(4px);
+}
+
+.search-dialog__item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.search-dialog__item-name {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+.search-dialog__item-level {
+  font-size: var(--text-xs);
+  color: var(--color-gold-400);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.search-dialog__item-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--color-text-dim);
+}
+
+.search-dialog__item-details span {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.search-dialog__item-details i {
+  font-size: 12px;
+  color: var(--color-text-dim);
+}
+
+/* Rarity colors */
+.search-dialog__rarity--common {
+  color: var(--color-text-secondary);
+}
+
+.search-dialog__rarity--uncommon {
+  color: var(--color-success-400);
+}
+
+.search-dialog__rarity--rare {
+  color: var(--color-gold-400);
+}
+
+.search-dialog__rarity--very rare {
+  color: var(--color-mana-400);
+}
+
+.search-dialog__rarity--legendary {
+  color: var(--color-danger-400);
+}
+
+/* Empty state */
+.search-dialog__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-8);
+  color: var(--color-text-dim);
+  font-size: var(--text-sm);
+}
+
+.search-dialog__empty i {
+  font-size: 32px;
+  opacity: 0.5;
+}
+
+/* Scrollbar */
+.search-dialog__results::-webkit-scrollbar {
+  width: 6px;
+}
+
+.search-dialog__results::-webkit-scrollbar-track {
+  background: var(--color-bg-deep);
+}
+
+.search-dialog__results::-webkit-scrollbar-thumb {
+  background: var(--color-border-medium);
+  border-radius: 3px;
+}
+
+.search-dialog__results::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-gold);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
