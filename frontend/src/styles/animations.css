@@ -1,0 +1,401 @@
+/* frontend/src/styles/animations.css */
+/* DMAPP Animations */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Pulse glow for emphasis */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--color-glow-gold);
+  }
+  50% {
+    box-shadow: 0 0 40px var(--color-glow-gold-strong);
+  }
+}
+
+/* Breathing effect for active elements */
+@keyframes breathe {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Typing indicator dots */
+@keyframes typingDot {
+  0%, 60%, 100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+/* Dice roll shake */
+@keyframes diceShake {
+  0%, 100% { transform: rotate(0deg) translateX(0); }
+  10% { transform: rotate(-15deg) translateX(-8px); }
+  20% { transform: rotate(10deg) translateX(6px); }
+  30% { transform: rotate(-10deg) translateX(-4px); }
+  40% { transform: rotate(8deg) translateX(4px); }
+  50% { transform: rotate(-5deg) translateX(-2px); }
+  60% { transform: rotate(3deg) translateX(2px); }
+  70% { transform: rotate(-2deg) translateX(-1px); }
+  80% { transform: rotate(1deg) translateX(1px); }
+  90% { transform: rotate(0deg) translateX(0); }
+}
+
+/* Dice roll result */
+@keyframes diceRoll {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: rotateX(180deg) rotateY(90deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(180deg);
+    opacity: 1;
+  }
+}
+
+/* Number roll (count up) */
+@keyframes numberRoll {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(10%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* HP bar critical pulse */
+@keyframes criticalPulse {
+  0%, 100% {
+    background: var(--color-danger-400);
+    box-shadow: 0 0 10px var(--color-glow-danger);
+  }
+  50% {
+    background: var(--color-danger-500);
+    box-shadow: 0 0 25px var(--color-glow-danger);
+  }
+}
+
+/* Card hover lift */
+@keyframes cardHover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Shimmer effect for loading */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Float animation for avatars */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Glow pulse for selected items */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--color-glow-gold);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--color-glow-gold-strong);
+  }
+}
+
+/* Spin */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   ANIMATION UTILITY CLASSES
+   ============================================ */
+
+.animate-fadeIn { animation: fadeIn var(--transition-slow) ease forwards; }
+.animate-fadeInUp { animation: fadeInUp var(--transition-slow) ease forwards; }
+.animate-fadeInDown { animation: fadeInDown var(--transition-slow) ease forwards; }
+.animate-scaleIn { animation: scaleIn var(--transition-normal) ease forwards; }
+.animate-pulseGlow { animation: pulseGlow 2s ease-in-out infinite; }
+.animate-breathe { animation: breathe 3s ease-in-out infinite; }
+.animate-diceShake { animation: diceShake 0.6s ease-out; }
+.animate-criticalPulse { animation: criticalPulse 1s ease-in-out infinite; }
+.animate-spin { animation: spin 1s linear infinite; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-glowPulse { animation: glowPulse 2s ease-in-out infinite; }
+
+/* Stagger delays for lists */
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+
+/* Hover transitions */
+.hover-lift {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.hover-glow {
+  transition: box-shadow var(--transition-normal);
+}
+.hover-glow:hover {
+  box-shadow: var(--glow-gold);
+}
+
+/* Click feedback */
+.press-effect {
+  transition: transform var(--transition-fast);
+}
+.press-effect:active {
+  transform: scale(0.97);
+}
+
+/* Skeleton loading */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-surface) 25%,
+    var(--color-bg-elevated) 50%,
+    var(--color-bg-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ============================================
+   PARTY/WAR ROOM ANIMATIONS
+   ============================================ */
+
+/* Sello de confirmación al completar personaje */
+@keyframes sealStamp {
+  0% {
+    transform: scale(2) rotate(-15deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(0.9) rotate(5deg);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.05) rotate(-3deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Efecto de inserción (drag & drop) */
+@keyframes cardInsert {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Resplandor de selección */
+@keyframes selectionGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--theme-glow, var(--color-glow-gold));
+  }
+  50% {
+    box-shadow: 0 0 25px var(--theme-glow-strong, var(--color-glow-gold-strong));
+  }
+}
+
+/* Aura pulse for active character */
+@keyframes auraPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Rune selection wiggle */
+@keyframes runeWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+/* Slot hover shimmer */
+@keyframes slotShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Character card entrance */
+@keyframes characterEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  60% {
+    transform: scale(1.02) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Stat change flash */
+@keyframes statFlash {
+  0%, 100% {
+    background: transparent;
+  }
+  50% {
+    background: var(--theme-glow, var(--color-glow-gold));
+  }
+}
+
+/* Drag placeholder pulse */
+@keyframes dragPlaceholderPulse {
+  0%, 100% {
+    border-color: var(--color-border-default);
+    opacity: 0.5;
+  }
+  50% {
+    border-color: var(--theme-primary, var(--color-gold-400));
+    opacity: 0.8;
+  }
+}
+
+/* Party War Room animation classes */
+.animate-sealStamp {
+  animation: sealStamp 0.5s ease-out;
+}
+
+.animate-cardInsert {
+  animation: cardInsert 0.3s ease-out;
+}
+
+.animate-selectionGlow {
+  animation: selectionGlow 1.5s ease-in-out infinite;
+}
+
+.animate-auraPulse {
+  animation: auraPulse 2s ease-in-out infinite;
+}
+
+.animate-runeWiggle {
+  animation: runeWiggle 0.4s ease-out;
+}
+
+.animate-characterEnter {
+  animation: characterEnter 0.4s ease-out;
+}
+
+.animate-statFlash {
+  animation: statFlash 0.3s ease-out;
+}
+
+.animate-dragPlaceholder {
+  animation: dragPlaceholderPulse 1.5s ease-in-out infinite;
+}

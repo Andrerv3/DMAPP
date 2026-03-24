@@ -1,0 +1,131 @@
+/* DiceTray component styles */
+
+.dice-tray {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.dice-tray__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-gold-400);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.dice-tray__icon {
+  font-size: 18px;
+}
+
+.dice-tray__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+
+.dice-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: var(--space-2);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.dice-btn:hover:not(:disabled) {
+  background: var(--color-bg-hover);
+  border-color: var(--dice-color);
+  transform: translateY(-2px);
+}
+
+.dice-btn--selected {
+  border-color: var(--dice-color);
+  background: var(--color-bg-hover);
+  box-shadow: 0 0 10px var(--color-glow-gold);
+}
+
+.dice-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dice-btn__icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.dice-btn__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-dim);
+}
+
+.dice-tray__roll {
+  width: 100%;
+  padding: var(--space-3);
+  background: linear-gradient(135deg, var(--color-gold-600), var(--color-gold-500));
+  border: 1px solid var(--color-gold-400);
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-bg-void);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.dice-tray__roll:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--color-gold-500), var(--color-gold-400));
+  box-shadow: var(--glow-gold-strong);
+  transform: translateY(-2px);
+}
+
+.dice-tray__roll--rolling {
+  animation: diceShake 0.5s ease-in-out infinite;
+}
+
+.dice-tray__roll:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dice-tray__result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-gold-400);
+  border-radius: var(--radius-md);
+  animation: scaleIn 0.3s ease forwards;
+}
+
+.dice-tray__result-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.dice-tray__result-value {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--color-gold-400);
+  text-shadow: 0 0 20px var(--color-glow-gold-strong);
+}

@@ -1,0 +1,101 @@
+/* OptionsCard component styles */
+
+.options-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  animation: fadeInUp 0.4s ease forwards;
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.options-card__header {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-deep);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.options-card__label {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--color-gold-400);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+.options-card__list {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3);
+  gap: var(--space-2);
+}
+
+.option-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-4);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-align: left;
+}
+
+.option-card:hover:not(:disabled) {
+  background: var(--color-bg-hover);
+  border-color: var(--color-gold-400);
+  transform: translateX(4px);
+  box-shadow: var(--glow-gold);
+}
+
+.option-card:active:not(:disabled) {
+  transform: translateX(2px);
+}
+
+.option-card:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.option-card__number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-gold);
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  color: var(--color-gold-400);
+  flex-shrink: 0;
+}
+
+.option-card__text {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  line-height: var(--leading-normal);
+}
+
+.option-card__arrow {
+  font-size: 18px;
+  color: var(--color-text-dim);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all var(--transition-normal);
+}
+
+.option-card:hover .option-card__arrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--color-gold-400);
+}

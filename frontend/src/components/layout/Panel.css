@@ -1,0 +1,79 @@
+/* Panel component styles */
+
+.game-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-surface);
+  overflow: hidden;
+}
+
+.game-panel--left {
+  width: var(--panel-left-width);
+  min-width: var(--panel-left-width);
+  border-right: 1px solid var(--color-border-default);
+}
+
+.game-panel--right {
+  width: var(--panel-right-width);
+  min-width: var(--panel-right-width);
+  border-left: 1px solid var(--color-border-default);
+}
+
+.game-panel__header {
+  padding: var(--space-4) var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+  position: relative;
+}
+
+.game-panel__header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: var(--space-4);
+  right: var(--space-4);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-gold-400),
+    transparent
+  );
+  opacity: 0.2;
+}
+
+.game-panel__title {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-gold-400);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  margin: 0;
+}
+
+.game-panel__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Scrollbar styling */
+.game-panel__content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.game-panel__content::-webkit-scrollbar-track {
+  background: var(--color-bg-deep);
+}
+
+.game-panel__content::-webkit-scrollbar-thumb {
+  background: var(--color-bg-elevated);
+  border-radius: 3px;
+}
+
+.game-panel__content::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-700);
+}
