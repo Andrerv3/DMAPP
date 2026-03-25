@@ -34,7 +34,15 @@ export const getToneDescriptor = (tone) =>
   TONE_DESCRIPTORS.find((t) => tone <= t.max)?.label ?? 'dark and atmospheric'
 
 export const MAX_NARRATION_WORDS = 200
-export const RECENT_TURNS_WINDOW = 5
+export const RECENT_TURNS_WINDOW = 3
 export const COMPRESS_EVERY_N_TURNS = 10
 export const MAX_OPTIONS = 3
 export const AI_RETRY_LIMIT = 1
+
+// Token budget targets
+export const TOKEN_BUDGET = {
+  systemPrompt: 350,
+  userPrompt: 400,
+  maxNarration: 200,
+  historyTruncate: 300,
+}

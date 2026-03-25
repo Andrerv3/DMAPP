@@ -8,6 +8,7 @@ Web app where AI acts as Dungeon Master. Players configure game system, create c
 - AI: Gemini 2.0 Flash (free tier) via REST
 - Frontend: React + Vite
 - State: Per-session JSON in DB, compressed every 10 turns
+- Data Layer: `backend/src/data/rpgData.js` (RPGDataService for D&D 5e SRD data)
 
 ## Agent Map
 ```
@@ -38,50 +39,14 @@ backend/src/
     ai.js                → Gemini client config
     db.js                → DB connection
     constants.js         → GAME_SYSTEMS, TONES, MODES
+  data/
+    rpgData.js           → RPGDataService (spells, monsters, items, classes)
   db/
     schema.sql           → sessions, characters, turns, game_state
 ai-engine/
   prompts/
     system.base.txt      → immutable DM identity + rules
     templates/           → per-system prompt variants
-frontend/src/
-  pages/
-    Setup.jsx            → Game config + party creation wizard
-    Session.jsx          → Main game UI with party sidebar
-  stores/
-    session.js           → Zustand store
-  styles/
-    tokens.css           → Design system tokens (colors, spacing, themes)
-    animations.css        → Keyframe animations
-    app.css              → Main stylesheet
-  components/
-    layout/
-      GameLayout.jsx     → 3-panel game layout
-      Header.jsx         → App header with logo
-      Panel.jsx          → Reusable panel wrapper
-    character/
-      CharacterPanel.jsx → Character info display
-      CharacterCard.jsx  → Character summary card
-      StatBar.jsx        → HP/Mana bar component
-      PartyList.jsx      → Party member list
-    narrative/
-      NarrativePanel.jsx → Main narrative display
-      SceneCard.jsx      → DM message card
-      OptionsCard.jsx    → Choice buttons
-    dice/
-      DicePanel.jsx      → Dice rolling interface
-      DiceTray.jsx       → Visual dice selector
-    ui/
-      CommandBar.jsx     → Player input bar
-    party/
-      PartyWarRoom.jsx  → Immersive party creation (War Room style)
-      CharacterSlot.jsx  → Draggable character slot
-      RuneSelector.jsx    → Icon-based selector with runes
-      StatPanel.jsx      → Ability scores panel
-    AvatarSelector.jsx   → DiceBear avatar picker
-    PartyBuilder.jsx    → Multi-character creation (wrapper)
-  data/
-    characterData.js     → Character templates per game system
 ```
 
 ## Prompt Contract
@@ -228,3 +193,12 @@ The party creation uses an immersive "War Room" interface:
 - New rule: add case in `rulesEngine.js`
 - New character option: add to `characterData.js`
 - New theme: add tokens to `tokens.css` and create icon map in `PartyWarRoom.jsx`
+- New data source: add file in `backend/src/data/`, import where needed
+
+## Agent Optimization Notes
+All agents are optimized for token reduction and memory efficiency:
+- **promptBuilder.js**: Map-based template cache, RPG context cache, truncated history (500 chars), simplified labels
+- **narrative.js**: Simplified regex, direct array manipulation
+- **gameState.js**: Lazy JSON parse for turns, reduced string operations
+- **consistency.js**: Early return on empty narration, pre-compiled regex patterns
+- **orchestrator.js**: Object.assign instead of spread operator to reduce cloning

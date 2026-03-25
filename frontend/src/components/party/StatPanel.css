@@ -5,18 +5,18 @@
 .stat-panel {
   background: var(--color-bg-input);
   border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
 }
 
 .stat-panel__header {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  margin-bottom: var(--space-4);
-  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
   border-bottom: 1px solid var(--color-border-subtle);
-  font-size: var(--text-xs);
+  font-size: 10px;
   font-weight: var(--font-semibold);
   color: var(--color-text-dim);
   text-transform: uppercase;
@@ -24,7 +24,7 @@
 }
 
 .stat-panel__header i {
-  font-size: 16px;
+  font-size: 12px;
   color: var(--theme-primary, var(--color-gold-400));
 }
 
@@ -32,8 +32,8 @@
 
 .stat-panel__grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: var(--space-2);
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
 }
 
 /* ==================== STAT ==================== */
@@ -44,21 +44,20 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-1);
-  padding: var(--space-2);
+  padding: var(--space-3);
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
 }
 
 .stat-panel__stat:hover {
-  border-color: var(--color-border-medium);
-  transform: translateY(-2px);
+  border-color: var(--theme-primary, var(--color-gold-500));
 }
 
 .stat-panel__stat--primary {
   border-color: var(--theme-primary, var(--color-gold-500));
-  background: var(--theme-glow, rgba(201, 162, 39, 0.1));
+  background: rgba(201, 162, 39, 0.05);
 }
 
 .stat-panel__stat--flash {
@@ -66,8 +65,8 @@
 }
 
 .stat-panel__stat-icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,7 +76,7 @@
 }
 
 .stat-panel__stat-icon i {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .stat-panel__stat--primary .stat-panel__stat-icon {
@@ -87,14 +86,14 @@
 
 .stat-panel__stat-value {
   width: 100%;
-  height: 36px;
+  height: 32px;
   padding: 0;
   background: var(--color-bg-input);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
   color: var(--color-text-primary);
   font-family: var(--font-mono);
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   font-weight: var(--font-bold);
   text-align: center;
   transition: all var(--transition-fast);
@@ -103,20 +102,19 @@
 .stat-panel__stat-value:focus {
   outline: none;
   border-color: var(--theme-primary, var(--color-gold-500));
-  box-shadow: 0 0 0 2px var(--theme-glow, var(--color-glow-gold));
+  box-shadow: 0 0 0 1px var(--theme-glow, var(--color-glow-gold));
 }
 
 .stat-panel__stat--primary .stat-panel__stat-value {
   color: var(--theme-primary, var(--color-gold-400));
-  font-size: var(--text-xl);
 }
 
 .stat-panel__stat-modifier {
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-weight: var(--font-semibold);
   color: var(--color-success-400);
-  min-height: 20px;
+  min-height: 16px;
 }
 
 .stat-panel__stat--primary .stat-panel__stat-modifier {
@@ -124,7 +122,7 @@
 }
 
 .stat-panel__stat-label {
-  font-size: var(--text-xs);
+  font-size: 10px;
   font-weight: var(--font-bold);
   color: var(--color-text-dim);
   text-transform: uppercase;
@@ -133,10 +131,10 @@
 
 .stat-panel__stat-badge {
   position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 18px;
-  height: 18px;
+  top: -4px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -146,19 +144,17 @@
 }
 
 .stat-panel__stat-badge i {
-  font-size: 10px;
+  font-size: 8px;
 }
 
 /* ==================== FANTASY THEME ==================== */
 
 .stat-panel--fantasy .stat-panel__stat--primary {
-  border-color: var(--fantasy-border-strong);
-  box-shadow: 0 0 10px var(--fantasy-glow);
+  box-shadow: 0 0 6px var(--fantasy-glow);
 }
 
 .stat-panel--fantasy .stat-panel__stat-value:focus {
-  border-color: var(--fantasy-primary);
-  box-shadow: 0 0 0 3px var(--fantasy-glow);
+  box-shadow: 0 0 0 2px var(--fantasy-glow);
 }
 
 /* ==================== CYBER THEME ==================== */
@@ -168,13 +164,12 @@
 }
 
 .stat-panel--cyber .stat-panel__stat--primary {
-  border-color: var(--cyber-border-strong);
-  box-shadow: 0 0 10px var(--cyber-glow);
+  box-shadow: 0 0 6px var(--cyber-glow);
 }
 
 .stat-panel--cyber .stat-panel__stat-value:focus {
   border-color: var(--cyber-primary);
-  box-shadow: 0 0 0 3px var(--cyber-glow);
+  box-shadow: 0 0 0 2px var(--cyber-glow);
 }
 
 .stat-panel--cyber .stat-panel__stat-modifier {
@@ -196,8 +191,7 @@
 /* ==================== HORROR THEME ==================== */
 
 .stat-panel--horror .stat-panel__stat--primary {
-  border-color: var(--horror-border-strong);
-  box-shadow: 0 0 10px var(--horror-glow);
+  box-shadow: 0 0 6px var(--horror-glow);
 }
 
 .stat-panel--horror .stat-panel__stat-modifier {
@@ -208,21 +202,20 @@
 
 @media (max-width: 640px) {
   .stat-panel__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+  }
+
+  .stat-panel__stat {
+    padding: var(--space-2);
   }
 
   .stat-panel__stat-value {
-    height: 32px;
-    font-size: var(--text-base);
+    height: 28px;
+    font-size: var(--text-sm);
   }
 
   .stat-panel__stat--primary .stat-panel__stat-value {
-    font-size: var(--text-lg);
-  }
-}
-
-@media (max-width: 400px) {
-  .stat-panel__grid {
-    grid-template-columns: repeat(2, 1fr);
+    font-size: var(--text-base);
   }
 }

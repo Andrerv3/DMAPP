@@ -296,7 +296,7 @@ export default function PartyWarRoom({
         </SortableContext>
       </DndContext>
 
-      {/* Editor Panel */}
+      {/* Editor Panel — Two-panel layout */}
       <div className={`party-war-room__editor ${isEditing ? 'party-war-room__editor--open' : ''}`}>
         {selectedChar && (
           <>
@@ -314,69 +314,91 @@ export default function PartyWarRoom({
             </div>
 
             <div className="party-war-room__form">
-              {/* Name Input */}
-              <div className="party-war-room__name-field">
-                <label>
-                  <i className="ra ra-scroll-unfurled" />
-                  Character Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter name..."
-                  value={selectedChar.name}
-                  onChange={(e) => handleUpdateCharacter(selectedChar.id, 'name', e.target.value)}
-                  className="party-war-room__name-input"
-                />
+              {/* Left: Portrait */}
+              <div className="party-war-room__portrait">
+                <div className="party-war-room__portrait-frame">
+                  {selectedChar.avatar ? (
+                    <img src={selectedChar.avatar} alt={selectedChar.name} />
+                  ) : (
+                    <i className={`ra ${icons[selectedChar.class] || icons[selectedChar.race] || 'ra-player'}`} />
+                  )}
+                </div>
+                <div className="party-war-room__portrait-name">
+                  {selectedChar.name || 'Unnamed'}
+                </div>
+                {selectedChar.class && (
+                  <div className="party-war-room__portrait-class">
+                    {selectedChar.class}
+                  </div>
+                )}
               </div>
 
-              {/* Selectors */}
-              <div className="party-war-room__selectors">
-                <RuneSelector
-                  label={getRaceLabel()}
-                  options={raceOptions}
-                  value={selectedChar.race}
-                  onChange={(val) => handleUpdateCharacter(selectedChar.id, 'race', val)}
-                  iconMap={icons}
-                  theme={theme}
-                />
-                <RuneSelector
-                  label={getClassLabel()}
-                  options={classOptions}
-                  value={selectedChar.class}
-                  onChange={(val) => handleUpdateCharacter(selectedChar.id, 'class', val)}
-                  iconMap={icons}
-                  theme={theme}
-                />
-                <RuneSelector
-                  label="Background"
-                  options={backgroundOptions}
-                  value={selectedChar.background}
-                  onChange={(val) => handleUpdateCharacter(selectedChar.id, 'background', val)}
-                  iconMap={icons}
-                  theme={theme}
-                />
-              </div>
+              {/* Right: Form Fields */}
+              <div className="party-war-room__fields">
+                {/* Name Input */}
+                <div className="party-war-room__name-field">
+                  <label>
+                    <i className="ra ra-scroll-unfurled" />
+                    Character Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter name..."
+                    value={selectedChar.name}
+                    onChange={(e) => handleUpdateCharacter(selectedChar.id, 'name', e.target.value)}
+                    className="party-war-room__name-input"
+                  />
+                </div>
 
-              {/* Stats Panel */}
-              {selectedChar.class && (
-                <StatPanel
-                  stats={selectedChar.stats}
-                  primaryStat={primaryStat}
-                  systemStats={systemStats}
-                  onChange={(stat, value) => {
-                    const newParty = localParty.map(c => {
-                      if (c.id !== selectedChar.id) return c
-                      return {
-                        ...c,
-                        stats: { ...c.stats, [stat]: parseInt(value) || 10 }
-                      }
-                    })
-                    onChange?.({ party: newParty, activeCharacterId: localParty[0]?.id })
-                  }}
-                  theme={theme}
-                  icons={icons}
-                />
-              )}
+                {/* Selectors */}
+                <div className="party-war-room__selectors">
+                  <RuneSelector
+                    label={getRaceLabel()}
+                    options={raceOptions}
+                    value={selectedChar.race}
+                    onChange={(val) => handleUpdateCharacter(selectedChar.id, 'race', val)}
+                    iconMap={icons}
+                    theme={theme}
+                  />
+                  <RuneSelector
+                    label={getClassLabel()}
+                    options={classOptions}
+                    value={selectedChar.class}
+                    onChange={(val) => handleUpdateCharacter(selectedChar.id, 'class', val)}
+                    iconMap={icons}
+                    theme={theme}
+                  />
+                  <RuneSelector
+                    label="Background"
+                    options={backgroundOptions}
+                    value={selectedChar.background}
+                    onChange={(val) => handleUpdateCharacter(selectedChar.id, 'background', val)}
+                    iconMap={icons}
+                    theme={theme}
+                  />
+                </div>
+
+                {/* Stats Panel */}
+                {selectedChar.class && (
+                  <StatPanel
+                    stats={selectedChar.stats}
+                    primaryStat={primaryStat}
+                    systemStats={systemStats}
+                    onChange={(stat, value) => {
+                      const newParty = localParty.map(c => {
+                        if (c.id !== selectedChar.id) return c
+                        return {
+                          ...c,
+                          stats: { ...c.stats, [stat]: parseInt(value) || 10 }
+                        }
+                      })
+                      onChange?.({ party: newParty, activeCharacterId: localParty[0]?.id })
+                    }}
+                    theme={theme}
+                    icons={icons}
+                  />
+                )}
+              </div>
             </div>
           </>
         )}

@@ -24,9 +24,22 @@ const DEFAULT_FORM = {
   activeCharacterId: null,
 }
 
+// Reusable ornate card wrapper with corner ornaments
+function OrnateCard({ children }) {
+  return (
+    <div className="setup-card">
+      <span className="setup-card__corner setup-card__corner--tl" />
+      <span className="setup-card__corner setup-card__corner--tr" />
+      <span className="setup-card__corner setup-card__corner--bl" />
+      <span className="setup-card__corner setup-card__corner--br" />
+      {children}
+    </div>
+  )
+}
+
 export default function Setup() {
   const [form, setForm] = useState(DEFAULT_FORM)
-  const [step, setStep] = useState(1) // 1: game config, 2: character, 3: world
+  const [step, setStep] = useState(1)
   const [tonePulsing, setTonePulsing] = useState(false)
   const { createSession, isLoading, error } = useSessionStore()
   const navigate = useNavigate()
@@ -77,7 +90,7 @@ export default function Setup() {
     const value = parseInt(e.target.value)
     setField('tone', value)
     setTonePulsing(true)
-    setTimeout(() => setTonePulsing(false), 300)
+    setTimeout(() => setTonePulsing(false), 150)
   }
 
   const goToStep = (targetStep) => {
@@ -107,7 +120,7 @@ export default function Setup() {
     <div className="setup-page">
       <div className="setup-wizard">
         {/* Step Indicator */}
-        <div className="setup-steps">
+        <div className={`setup-steps setup-steps--step-${step}`}>
           {steps.map((s) => (
             <div
               key={s.num}
@@ -128,131 +141,131 @@ export default function Setup() {
 
         {/* Step 1: Game Configuration */}
         {step === 1 && (
-          <div className="setup-card">
-            <h2 className="setup-title">Choose Your Path</h2>
-            <p className="setup-subtitle">Select a game system and set the tone for your adventure</p>
-            
-            <label className="setup-label">Game System</label>
-            <div className="game-system-grid">
-              {GAME_SYSTEMS.map((gs) => (
-                <button
-                  key={gs.id}
-                  className={`game-chip ${form.game_system === gs.id ? 'selected' : ''}`}
-                  onClick={() => setField('game_system', gs.id)}
-                >
-                  <span className="game-chip-icon">{gs.icon}</span>
-                  <span>{gs.label}</span>
-                </button>
-              ))}
-            </div>
-
-            <div className="tone-section">
-              <label className="setup-label">DM Tone</label>
-              <div className="tone-slider-container">
-                <div className="tone-slider-track">
-                  <div 
-                    className="tone-slider-fill" 
-                    style={{ width: `${form.tone}%` }}
-                  />
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={form.tone}
-                  onChange={handleToneChange}
-                  className="tone-slider"
-                />
-                <div className="tone-labels">
-                  <span>Gritty</span>
-                  <span>Epic</span>
-                </div>
-                <div className={`tone-value ${tonePulsing ? 'pulse' : ''}`}>
-                  {toneLabel}
-                </div>
+          <OrnateCard>
+            <div className="setup-card__content">
+              <h2 className="setup-title">Choose Your Path</h2>
+              <p className="setup-subtitle">Select a game system and set the tone for your adventure</p>
+              
+              <label className="setup-label">Game System</label>
+              <div className="game-system-grid">
+                {GAME_SYSTEMS.map((gs) => (
+                  <button
+                    key={gs.id}
+                    className={`game-chip ${form.game_system === gs.id ? 'selected' : ''}`}
+                    onClick={() => setField('game_system', gs.id)}
+                  >
+                    <span className="game-chip-icon">{gs.icon}</span>
+                    <span>{gs.label}</span>
+                  </button>
+                ))}
               </div>
             </div>
 
-            <div className="setup-nav">
+            {/* Bottom Dock with Tone Slider + CTA */}
+            <div className="setup-dock">
+              <div className="setup-dock__tone">
+                <label className="setup-dock__tone-label">DM Tone</label>
+                <div className="setup-dock__tone-slider">
+                  <div className="tone-slider-track">
+                    <div 
+                      className="tone-slider-fill" 
+                      style={{ width: `${form.tone}%` }}
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={form.tone}
+                    onChange={handleToneChange}
+                    className="tone-slider-input"
+                  />
+                </div>
+                <span className="setup-dock__tone-value">{toneLabel}</span>
+              </div>
               <button className="setup-btn setup-btn--primary" onClick={() => setStep(2)}>
                 Next: Create Party →
               </button>
             </div>
-          </div>
+          </OrnateCard>
         )}
 
         {/* Step 2: Character Creation */}
         {step === 2 && (
-          <div className="setup-card">
-            <h2 className="setup-title">Assemble Your Party</h2>
-            <p className="setup-subtitle">Create up to 5 characters. Select one to be the active character.</p>
-            
-            <PartyBuilder 
-              gameSystem={form.game_system}
-              party={form.party}
-              onChange={handlePartyChange}
-            />
+          <OrnateCard>
+            <div className="setup-card__content">
+              <h2 className="setup-title">Assemble Your Party</h2>
+              <p className="setup-subtitle">Create up to 5 characters. Select one to be the active character.</p>
+              
+              <PartyBuilder 
+                gameSystem={form.game_system}
+                party={form.party}
+                onChange={handlePartyChange}
+              />
+            </div>
 
-            <div className="setup-nav">
+            {/* Bottom Dock */}
+            <div className="setup-dock">
               <button className="setup-btn setup-btn--back" onClick={() => setStep(1)}>
-                <i className="ra ra-arrow-left" />
-                Back
+                ← Back
               </button>
               <button className="setup-btn setup-btn--primary" onClick={() => setStep(3)}>
                 Next: Define World →
               </button>
             </div>
-          </div>
+          </OrnateCard>
         )}
 
         {/* Step 3: World Building */}
         {step === 3 && (
-          <div className="setup-card">
-            <h2 className="setup-title">Shape the Realm</h2>
-            <p className="setup-subtitle">Define the world where your adventure takes place</p>
-            
-            <div className="world-form">
-              <div>
-                <label className="setup-label">World Name</label>
-                <input
-                  className="setup-input"
-                  placeholder="e.g., The Shattered Isles"
-                  value={form.world.name}
-                  onChange={(e) => setField('world.name', e.target.value)}
-                />
-              </div>
+          <OrnateCard>
+            <div className="setup-card__content">
+              <h2 className="setup-title">Shape the Realm</h2>
+              <p className="setup-subtitle">Define the world where your adventure takes place</p>
               
-              <div>
-                <label className="setup-label">Setting & Backstory</label>
-                <textarea
-                  className="setup-input setup-textarea"
-                  placeholder="Describe the world's history, conflicts, and mysteries..."
-                  value={form.world.setting}
-                  onChange={(e) => setField('world.setting', e.target.value)}
-                />
-              </div>
-              
-              <div>
-                <label className="setup-label">Starting Location</label>
-                <input
-                  className="setup-input"
-                  placeholder="Where does the adventure begin?"
-                  value={form.world.current_location}
-                  onChange={(e) => setField('world.current_location', e.target.value)}
-                />
+              <div className="world-form">
+                <div>
+                  <label className="setup-label">World Name</label>
+                  <input
+                    className="setup-input"
+                    placeholder="e.g., The Shattered Isles"
+                    value={form.world.name}
+                    onChange={(e) => setField('world.name', e.target.value)}
+                  />
+                </div>
+                
+                <div>
+                  <label className="setup-label">Setting & Backstory</label>
+                  <textarea
+                    className="setup-input setup-textarea"
+                    placeholder="Describe the world's history, conflicts, and mysteries..."
+                    value={form.world.setting}
+                    onChange={(e) => setField('world.setting', e.target.value)}
+                  />
+                </div>
+                
+                <div>
+                  <label className="setup-label">Starting Location</label>
+                  <input
+                    className="setup-input"
+                    placeholder="Where does the adventure begin?"
+                    value={form.world.current_location}
+                    onChange={(e) => setField('world.current_location', e.target.value)}
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="setup-nav">
+            {/* Bottom Dock */}
+            <div className="setup-dock">
               <button className="setup-btn setup-btn--back" onClick={() => setStep(2)}>
-                <i className="ra ra-arrow-left" />
-                Back
+                ← Back
               </button>
               <button className="setup-btn setup-btn--primary" onClick={handleStart}>
-                Begin Adventure <i className="ra ra-sword" />
+                Begin Adventure ⚔
               </button>
             </div>
-          </div>
+          </OrnateCard>
         )}
       </div>
     </div>

@@ -46,27 +46,20 @@ export const NarrativeAgent = {
 }
 
 function parseResponse(raw) {
-  // Strip markdown code fences if present
-  const cleaned = raw.replace(/```json\n?|\n?```/g, '').trim()
+  const cleaned = raw.replace(/```json|```/g, '').trim()
   const parsed = JSON.parse(cleaned)
 
-  // Validate required fields
   if (!parsed.narration || !parsed.event || !Array.isArray(parsed.options)) {
-    throw new Error('Missing required fields in AI response')
+    throw new Error('Missing required fields')
   }
 
-  // Enforce option count
-  if (parsed.options.length !== MAX_OPTIONS) {
-    parsed.options = parsed.options.slice(0, MAX_OPTIONS)
-    while (parsed.options.length < MAX_OPTIONS) {
-      parsed.options.push('Wait and observe')
-    }
-  }
+  const options = parsed.options.slice(0, 3)
+  while (options.length < 3) options.push('Wait and observe')
 
   return {
     narration: parsed.narration,
     event: parsed.event,
-    options: parsed.options,
+    options,
     state_delta: parsed.state_delta ?? {},
   }
 }

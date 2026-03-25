@@ -1,5 +1,5 @@
 // backend/src/agents/promptBuilder.js
-// PromptBuilderAgent — assembles prompt from state parts
+// PromptBuilderAgent — assembles prompt from state parts (OPTIMIZED)
 // Role: build system + user prompt from session state
 // Input: state object, playerAction, diceResult
 // Output: { systemPrompt, userPrompt }
@@ -14,27 +14,30 @@ import { RPGDataService } from '../data/rpgData.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const PROMPT_DIR = join(__dirname, '../../../ai-engine/prompts')
 
-// Cache templates in memory
-const templateCache = {}
+const TEMPLATE_CACHE = new Map()
+const RPG_CONTEXT_CACHE = new Map()
+
 function loadTemplate(name) {
-  if (templateCache[name]) return templateCache[name]
+  if (TEMPLATE_CACHE.has(name)) return TEMPLATE_CACHE.get(name)
   try {
-    templateCache[name] = readFileSync(join(PROMPT_DIR, `templates/${name}.txt`), 'utf8')
+    const template = readFileSync(join(PROMPT_DIR, `templates/${name}.txt`), 'utf8')
+    TEMPLATE_CACHE.set(name, template)
+    return template
   } catch {
-    templateCache[name] = readFileSync(join(PROMPT_DIR, 'templates/free.txt'), 'utf8')
+    const fallback = readFileSync(join(PROMPT_DIR, 'templates/free.txt'), 'utf8')
+    TEMPLATE_CACHE.set(name, fallback)
+    return fallback
   }
-  return templateCache[name]
 }
 
 const BASE_SYSTEM = readFileSync(join(PROMPT_DIR, 'system.base.txt'), 'utf8')
 
-// Cache RPG context data
-let rpgContextCache = null
 function getRPGContext(gameSystem) {
-  if (!rpgContextCache && gameSystem === 'dnd5e') {
-    rpgContextCache = RPGDataService.getAIContext(gameSystem)
-  }
-  return rpgContextCache
+  if (gameSystem !== 'dnd5e') return null
+  if (RPG_CONTEXT_CACHE.has('dnd5e')) return RPG_CONTEXT_CACHE.get('dnd5e')
+  const context = RPGDataService.getAIContext(gameSystem)
+  RPG_CONTEXT_CACHE.set('dnd5e', context)
+  return context
 }
 
 export const PromptBuilder = {
@@ -93,49 +96,42 @@ function buildWorldContext(state) {
 function buildCharacterContext(state, activeCharacter = null) {
   const p = activeCharacter || state.player || {}
   
-  // If party exists, show party info
   const party = state.party
-  let partyInfo = ''
-  if (party && party.length > 0) {
-    const partyMembers = party.map(c => `${c.name || 'Unnamed'}(HP:${c.hp ?? '?'}/${c.max_hp ?? '?'}, status:${c.status || 'active'})`).join(', ')
-    partyInfo = `PARTY: [${partyMembers}]`
-  }
-  
-  // Turn order info
-  const turnOrderInfo = state.turnOrder?.length 
-    ? `TURN ORDER: ${state.turnOrder.map((c, i) => `${i + 1}.${c.name}(init:${c.initiative})`).join(', ')}`
+  const partyInfo = (party?.length > 0) 
+    ? `PARTY: [${party.map(c => `${c.name || '?'}(${c.hp ?? '?'}/${c.max_hp ?? '?'})`).join(', ')}]`
     : ''
   
-  const enemies = state.enemies?.length ? `Enemies: ${state.enemies.map((e) => `${e.name}(hp:${e.hp})`).join(', ')}` : ''
+  const turnOrderInfo = state.turnOrder?.length 
+    ? `ORDER: ${state.turnOrder.map((c, i) => `${i + 1}.${c.name}`).join(', ')}`
+    : ''
   
-  // Full character stats
+  const enemies = state.enemies?.length 
+    ? `ENEMIES: ${state.enemies.map(e => `${e.name}(hp:${e.hp})`).join(', ')}`
+    : ''
+  
   const statsStr = p.stats 
     ? Object.entries(p.stats).map(([k, v]) => `${k}:${v}`).join(', ')
     : ''
   
-  // Character class details
   const classDetails = [
-    `CHARACTER: ${p.name ?? 'Hero'} | Race: ${p.race ?? 'Unknown'} | Class: ${p.class ?? ''} Lv${p.level ?? 1}`,
-    `HP: ${p.hp ?? 0}/${p.max_hp ?? 20} | Mana: ${p.mana ?? 0} | Status: ${p.status || 'active'}`,
-    `Stats: ${statsStr}`,
+    `CHAR: ${p.name ?? 'Hero'} | ${p.race ?? '?'} | ${p.class ?? '?'} Lv${p.level ?? 1}`,
+    `HP: ${p.hp ?? 0}/${p.max_hp ?? 20} | Mana: ${p.mana ?? 0} | ${p.status || 'active'}`,
+    statsStr,
     p.skills?.length ? `Skills: ${p.skills.join(', ')}` : '',
-    p.background ? `Background: ${p.background}` : '',
-    p.inventory?.length ? `Inventory: ${p.inventory.join(', ')}` : '',
+    p.background ? `Bg: ${p.background}` : '',
+    p.inventory?.length ? `Inv: ${p.inventory.join(', ')}` : '',
   ].filter(Boolean)
   
-  return [
-    partyInfo,
-    turnOrderInfo,
-    ...classDetails,
-    enemies,
-  ].filter(Boolean).join('\n')
+  return [partyInfo, turnOrderInfo, ...classDetails, enemies].filter(Boolean).join('\n')
 }
 
 function buildHistory(state) {
-  const summary = state.history_summary ? `HISTORY SUMMARY: ${state.history_summary}` : ''
+  const summary = state.history_summary 
+    ? `HISTORY: ${state.history_summary.slice(0, 500)}` 
+    : ''
   const recent = (state.recent_turns ?? [])
     .slice(-RECENT_TURNS_WINDOW)
-    .map((t) => `[T${t.turn}] ${t.action} → ${t.event}`)
+    .map((t) => `T${t.turn}: ${t.action} → ${t.event}`)
     .join('\n')
   return [summary, recent ? `RECENT:\n${recent}` : ''].filter(Boolean).join('\n')
 }

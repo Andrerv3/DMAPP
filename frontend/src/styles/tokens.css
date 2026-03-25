@@ -97,7 +97,8 @@
 }
 
 /* ============================================
-   SPACING TOKENS
+   SPACING SCALE (STRICT — 4px base)
+   Only use these values. No arbitrary spacing.
    ============================================ */
 
 :root {
@@ -191,23 +192,37 @@
 }
 
 /* ============================================
-   TRANSITION TOKENS
+   TRANSITION TOKENS (STRICT — max 150ms for UI)
+   Reserve 200ms+ only for page-level transitions.
    ============================================ */
 
 :root {
   --transition-instant: 0ms;
-  --transition-fast: 100ms ease;
-  --transition-normal: 200ms ease;
-  --transition-slow: 300ms ease;
-  --transition-slower: 500ms ease;
-  
+  --transition-fast: 80ms ease;
+  --transition-normal: 120ms ease;
+  --transition-slow: 150ms ease;
+  --transition-slower: 200ms ease;
+
   /* Custom transitions */
-  --transition-bounce: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 150ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-smooth: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ============================================
    LAYOUT TOKENS
+   ============================================
+   Container rules:
+   - Setup wizard: --container-xl (960px)
+   - Cards inside wizard: 100% width, no nested max-width
+   - Vertical rhythm: --space-6 between sections
+   - Page padding: --space-8 desktop, --space-4 mobile
+
+   Grid rules (pick ONE per context):
+   - Game system cards: repeat(3, 1fr) — always 3 cols
+   - Stat panel: repeat(3, 1fr) — always 3 cols
+   - Party slots: repeat(auto-fill, 140px) — horizontal row
+   - Selectors row: repeat(3, 1fr) — always 3 cols
+   - 768px breakpoint: collapse to 2-col or 1-col
    ============================================ */
 
 :root {
@@ -216,25 +231,88 @@
   --container-sm: 480px;
   --container-md: 640px;
   --container-lg: 720px;
-  --container-xl: 900px;
-  
+  --container-xl: 960px;
+
   /* Panel widths */
   --panel-left-width: 280px;
   --panel-right-width: 260px;
   --header-height: 56px;
-  
+  --bottom-bar-height: 64px;
+
+  /* Character creation layout */
+  --char-portrait-width: 280px;
+
   /* Scroll constraints */
   --scroll-max-height-sm: 200px;
   --scroll-max-height-md: 320px;
   --scroll-max-height-lg: 400px;
   --scroll-max-height-xl: 500px;
-  
+
   /* Z-index layers */
   --z-base: 0;
   --z-dropdown: 100;
   --z-sticky: 200;
   --z-modal: 300;
   --z-toast: 400;
+}
+
+/* ============================================
+   COMPONENT SIZING STANDARDS
+   ============================================
+   Buttons:  height 44px (default), 52px (CTA)
+   Inputs:   height 44px, padding 0 16px
+   Cards:    padding --space-6, border-radius --radius-lg
+   Game chips: min-height 100px, min-width 160px
+   Stat cards: min-width 80px, aspect-ratio auto
+   ============================================ */
+
+:root {
+  --btn-height: 44px;
+  --btn-height-lg: 52px;
+  --input-height: 44px;
+  --card-padding: var(--space-6);
+  --card-radius: var(--radius-lg);
+  --game-chip-min-h: 100px;
+  --stat-card-min-w: 80px;
+}
+
+/* ============================================
+   ORNATE CARD TOKENS
+   Apply ONLY to primary containers (setup cards,
+   editor panels). Never on inputs or small elements.
+   ============================================ */
+
+:root {
+  /* Double border: outer dark + inner gold accent */
+  --ornate-border-outer: 1px solid var(--color-border-default);
+  --ornate-border-inner: 1px solid rgba(201, 162, 39, 0.15);
+  --ornate-corner-size: 20px;
+
+  /* Card inner surface */
+  --ornate-bg: linear-gradient(
+    180deg,
+    rgba(30, 30, 35, 0.95) 0%,
+    rgba(15, 15, 18, 0.98) 100%
+  );
+
+  /* Top gold accent line (centered, 60% width) */
+  --ornate-top-line: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-gold-600) 20%,
+    var(--color-gold-400) 50%,
+    var(--color-gold-600) 80%,
+    transparent 100%
+  );
+
+  /* Bottom bar dock gradient */
+  --dock-bg: linear-gradient(
+    180deg,
+    rgba(15, 15, 18, 0) 0%,
+    rgba(15, 15, 18, 0.8) 30%,
+    rgba(10, 10, 12, 0.95) 100%
+  );
+  --dock-border-top: 1px solid rgba(201, 162, 39, 0.2);
 }
 
 /* ============================================

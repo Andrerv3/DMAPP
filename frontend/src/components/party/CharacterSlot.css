@@ -1,4 +1,6 @@
-/* frontend/src/components/party/CharacterSlot.css */
+/* Character Slot — Consistent sizing, no grid-column hacks.
+   Uses scale for hover (not translateY) for smoother motion.
+   Transitions ≤ 150ms. */
 
 /* ==================== BASE ==================== */
 
@@ -6,15 +8,15 @@
   position: relative;
   width: 140px;
   cursor: pointer;
-  transition: all var(--transition-smooth);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .character-slot:hover {
-  transform: translateY(-4px);
+  transform: scale(1.04);
 }
 
 .character-slot--active {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .character-slot--active:hover {
@@ -28,11 +30,7 @@
 }
 
 .character-slot--selected {
-  transform: scale(1.02);
-}
-
-.character-slot--complete .character-slot__frame {
-  border-color: var(--theme-primary, var(--color-gold-400));
+  transform: scale(1.03);
 }
 
 /* ==================== FRAME ==================== */
@@ -47,7 +45,7 @@
   border: 2px solid var(--color-border-default);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: all var(--transition-smooth);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .character-slot:hover .character-slot__frame {
@@ -56,7 +54,11 @@
 
 .character-slot--active .character-slot__frame {
   border-color: var(--theme-primary, var(--color-gold-400));
-  box-shadow: var(--glow-gold);
+  box-shadow: 0 0 12px var(--color-glow-gold);
+}
+
+.character-slot--complete .character-slot__frame {
+  border-color: var(--theme-primary, var(--color-gold-400));
 }
 
 /* ==================== AVATAR ==================== */
@@ -87,7 +89,7 @@
 
 .character-slot__placeholder i {
   font-size: 48px;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 /* ==================== DRAG HANDLE ==================== */
@@ -107,7 +109,7 @@
   color: var(--color-text-dim);
   cursor: grab;
   opacity: 0;
-  transition: all var(--transition-fast);
+  transition: opacity var(--transition-fast);
   z-index: 10;
 }
 
@@ -123,7 +125,7 @@
 
 .character-slot__aura {
   position: absolute;
-  inset: -15px;
+  inset: -12px;
   border-radius: 50%;
   background: var(--theme-active-aura, var(--slot-active-aura));
   animation: auraPulse 2s ease-in-out infinite;
@@ -199,8 +201,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -210,7 +212,7 @@
   color: var(--color-text-dim);
   cursor: pointer;
   opacity: 0;
-  transition: all var(--transition-fast);
+  transition: opacity var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
   z-index: 10;
 }
 
@@ -222,7 +224,6 @@
   background: var(--theme-primary, var(--color-gold-400));
   border-color: var(--theme-primary, var(--color-gold-400));
   color: var(--color-bg-void);
-  box-shadow: var(--glow-gold);
 }
 
 .character-slot__remove {
@@ -240,7 +241,7 @@
   color: var(--color-text-dim);
   cursor: pointer;
   opacity: 0;
-  transition: all var(--transition-fast);
+  transition: opacity var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
   z-index: 10;
 }
 
@@ -249,34 +250,39 @@
 }
 
 .character-slot__remove:hover {
-  background: var(--color-danger-900);
+  background: rgba(220, 53, 69, 0.15);
   border-color: var(--color-danger-500);
   color: var(--color-danger-400);
 }
 
 /* ==================== CYBER THEME ==================== */
 
-.character-slot--cyber .character-slot__frame {
+.character-slot--cyberpunk .character-slot__frame,
+.character-slot--scifi .character-slot__frame {
   border-radius: var(--radius-md);
   background: var(--cyber-slot-empty-bg);
   border-color: var(--cyber-border);
 }
 
-.character-slot--cyber:hover .character-slot__frame {
+.character-slot--cyberpunk:hover .character-slot__frame,
+.character-slot--scifi:hover .character-slot__frame {
   border-color: var(--cyber-primary);
-  box-shadow: 0 0 15px var(--cyber-glow);
+  box-shadow: 0 0 12px var(--cyber-glow);
 }
 
-.character-slot--cyber.character-slot--active .character-slot__frame {
+.character-slot--cyberpunk.character-slot--active .character-slot__frame,
+.character-slot--scifi.character-slot--active .character-slot__frame {
   border-color: var(--cyber-primary);
-  box-shadow: 0 0 20px var(--cyber-glow);
+  box-shadow: 0 0 16px var(--cyber-glow);
 }
 
-.character-slot--cyber .character-slot__aura {
+.character-slot--cyberpunk .character-slot__aura,
+.character-slot--scifi .character-slot__aura {
   background: var(--cyber-active-aura);
 }
 
-.character-slot--cyber .character-slot__active-badge {
+.character-slot--cyberpunk .character-slot__active-badge,
+.character-slot--scifi .character-slot__active-badge {
   background: var(--cyber-primary);
   color: var(--color-bg-void);
 }
@@ -289,7 +295,7 @@
 
 .character-slot--horror:hover .character-slot__frame {
   border-color: var(--horror-primary);
-  box-shadow: 0 0 15px var(--horror-glow);
+  box-shadow: 0 0 12px var(--horror-glow);
 }
 
 .character-slot--horror .character-slot__active-badge {
@@ -301,7 +307,7 @@
 
 @media (max-width: 768px) {
   .character-slot {
-    width: 120px;
+    width: 110px;
   }
 
   .character-slot__frame {

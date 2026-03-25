@@ -113,99 +113,10 @@ input, textarea, select {
 }
 
 /* ============================================
-   SETUP PAGE
+   SETUP PAGE — styles in pages/Setup.css
    ============================================ */
 
-.setup-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-8);
-  background: var(--color-bg-void);
-  position: relative;
-}
 
-.setup-page::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(ellipse at 20% 20%, var(--color-glow-gold) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 80%, rgba(201, 162, 39, 0.05) 0%, transparent 50%);
-  pointer-events: none;
-}
-
-.setup-page > * {
-  position: relative;
-  z-index: 1;
-}
-
-.setup-page h1 {
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  font-weight: var(--font-semibold);
-  color: var(--color-gold-400);
-  text-align: center;
-  margin-bottom: var(--space-8);
-  text-shadow: 0 0 30px var(--color-glow-gold);
-  letter-spacing: var(--tracking-wide);
-}
-
-.setup-page section {
-  width: 100%;
-  max-width: 640px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-}
-
-/* ============================================
-   LOADING STATE
-   ============================================ */
-
-.loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  color: var(--color-text-dim);
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-}
-
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-
-@media (max-width: 1024px) {
-  .game-layout__panel--right {
-    display: none;
-  }
-  
-  :root {
-    --panel-right-width: 0px;
-  }
-}
-
-@media (max-width: 768px) {
-  .game-layout__panel--left {
-    display: none;
-  }
-  
-  :root {
-    --panel-left-width: 0px;
-  }
-  
-  .setup-page {
-    padding: var(--space-4);
-  }
-  
-  .setup-page h1 {
-    font-size: var(--text-2xl);
-  }
-}
 
 /* ============================================
    UTILITY CLASSES

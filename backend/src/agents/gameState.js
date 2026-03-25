@@ -1,15 +1,12 @@
 // backend/src/agents/gameState.js
-// GameStateAgent — ONLY agent that reads/writes DB
+// GameStateAgent — ONLY agent that reads/writes DB (OPTIMIZED)
 // Role: persist, load, update session state
-// Input: sessionId, state object, delta
-// Output: full state object
 // Constraints: never calls AI, never modifies logic
 
 import { getDB } from '../config/db.js'
 import { RECENT_TURNS_WINDOW } from '../config/constants.js'
 
 export const GameStateAgent = {
-  /** Load full state for session. Returns null if not found. */
   load(sessionId) {
     const db = getDB()
     const row = db.prepare('SELECT state, turn, mode FROM game_state WHERE session_id = ?').get(sessionId)
@@ -17,39 +14,30 @@ export const GameStateAgent = {
     return { ...JSON.parse(row.state), turn: row.turn, mode: row.mode }
   },
 
-  /** Create initial state for new session */
   create(sessionId, config) {
     const db = getDB()
     const initial = buildInitialState(config)
-    db.prepare(`
-      INSERT INTO sessions (id, game_system, tone) VALUES (?, ?, ?)
-    `).run(sessionId, config.game_system, config.tone ?? 65)
-    db.prepare(`
-      INSERT INTO game_state (session_id, state, turn, mode) VALUES (?, ?, 0, 'exploration')
-    `).run(sessionId, JSON.stringify(initial))
+    db.prepare(`INSERT INTO sessions (id, game_system, tone) VALUES (?, ?, ?)`)
+      .run(sessionId, config.game_system, config.tone ?? 65)
+    db.prepare(`INSERT INTO game_state (session_id, state, turn, mode) VALUES (?, ?, 0, 'exploration')`)
+      .run(sessionId, JSON.stringify(initial))
     return initial
   },
 
-  /** Apply delta and persist. Returns updated state. */
   save(sessionId, currentState, aiResponse, delta = {}) {
     const db = getDB()
     const newTurn = (currentState.turn ?? 0) + 1
     const updatedState = mergeState(currentState, delta, aiResponse, newTurn)
 
-    db.prepare(`
-      UPDATE game_state SET state = ?, turn = ?, mode = ?, updated_at = CURRENT_TIMESTAMP
-      WHERE session_id = ?
-    `).run(JSON.stringify(updatedState), newTurn, updatedState.mode, sessionId)
+    db.prepare(`UPDATE game_state SET state = ?, turn = ?, mode = ?, updated_at = CURRENT_TIMESTAMP WHERE session_id = ?`)
+      .run(JSON.stringify(updatedState), newTurn, updatedState.mode, sessionId)
 
-    db.prepare(`
-      INSERT INTO turns (session_id, turn_number, player_action, ai_response, state_delta)
-      VALUES (?, ?, ?, ?, ?)
-    `).run(sessionId, newTurn, currentState._last_action, JSON.stringify(aiResponse), JSON.stringify(delta))
+    db.prepare(`INSERT INTO turns (session_id, turn_number, player_action, ai_response, state_delta) VALUES (?, ?, ?, ?, ?)`)
+      .run(sessionId, newTurn, currentState._last_action, JSON.stringify(aiResponse), JSON.stringify(delta))
 
     return updatedState
   },
 
-  /** Update only the history summary (after compression) */
   updateSummary(sessionId, summary) {
     const db = getDB()
     const row = db.prepare('SELECT state FROM game_state WHERE session_id = ?').get(sessionId)
@@ -57,15 +45,17 @@ export const GameStateAgent = {
     const state = JSON.parse(row.state)
     state.history_summary = summary
     state.recent_turns = state.recent_turns.slice(-RECENT_TURNS_WINDOW)
-    db.prepare('UPDATE game_state SET state = ? WHERE session_id = ?')
-      .run(JSON.stringify(state), sessionId)
+    db.prepare('UPDATE game_state SET state = ? WHERE session_id = ?').run(JSON.stringify(state), sessionId)
   },
 
   getTurns(sessionId, limit = 20) {
-    return getDB().prepare(`
-      SELECT turn_number, player_action, ai_response FROM turns
-      WHERE session_id = ? ORDER BY turn_number DESC LIMIT ?
-    `).all(sessionId, limit)
+    const rows = getDB().prepare(`SELECT turn_number, player_action, ai_response FROM turns WHERE session_id = ? ORDER BY turn_number DESC LIMIT ?`)
+      .all(sessionId, limit)
+    return rows.map(r => ({
+      turn_number: r.turn_number,
+      player_action: r.player_action,
+      ai_response: typeof r.ai_response === 'string' ? JSON.parse(r.ai_response) : r.ai_response
+    }))
   },
 }
 
