@@ -41,18 +41,21 @@
 .stat-panel__stat {
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-3);
-  background: var(--color-bg-surface);
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3);
+  background: transparent;
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
 }
 
-.stat-panel__stat:hover {
+.stat-panel__stat:hover,
+.stat-panel__stat:focus-within {
   border-color: var(--theme-primary, var(--color-gold-500));
+  background: rgba(201, 162, 39, 0.03);
 }
 
 .stat-panel__stat--primary {
@@ -64,87 +67,105 @@
   animation: statFlash 0.3s ease-out;
 }
 
-.stat-panel__stat-icon {
-  width: 24px;
-  height: 24px;
+/* LEFT ICON */
+.stat-panel__icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-bg-deep);
-  border-radius: var(--radius-sm);
-  color: var(--color-text-dim);
-}
-
-.stat-panel__stat-icon i {
-  font-size: 12px;
-}
-
-.stat-panel__stat--primary .stat-panel__stat-icon {
-  background: var(--theme-primary, var(--color-gold-600));
-  color: var(--color-text-inverse);
-}
-
-.stat-panel__stat-value {
-  width: 100%;
-  height: 32px;
-  padding: 0;
-  background: var(--color-bg-input);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-sm);
-  color: var(--color-text-primary);
-  font-family: var(--font-mono);
-  font-size: var(--text-base);
-  font-weight: var(--font-bold);
-  text-align: center;
+  color: var(--theme-primary, var(--color-gold-400));
+  filter: drop-shadow(0 0 8px rgba(201, 162, 39, 0.4));
   transition: all var(--transition-fast);
 }
 
-.stat-panel__stat-value:focus {
-  outline: none;
-  border-color: var(--theme-primary, var(--color-gold-500));
-  box-shadow: 0 0 0 1px var(--theme-glow, var(--color-glow-gold));
+.stat-panel__icon i {
+  font-size: 36px;
 }
 
-.stat-panel__stat--primary .stat-panel__stat-value {
-  color: var(--theme-primary, var(--color-gold-400));
+.stat-panel__stat--primary .stat-panel__icon {
+  filter: drop-shadow(0 0 12px rgba(201, 162, 39, 0.8));
 }
 
-.stat-panel__stat-modifier {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: var(--font-semibold);
-  color: var(--color-success-400);
-  min-height: 16px;
+.stat-panel__stat--primary .stat-panel__icon i {
+  font-size: 40px;
 }
 
-.stat-panel__stat--primary .stat-panel__stat-modifier {
-  color: var(--theme-primary, var(--color-gold-400));
+/* RIGHT INFO STACK */
+.stat-panel__info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  flex: 1;
 }
 
-.stat-panel__stat-label {
-  font-size: 10px;
+.stat-panel__label {
+  font-size: 11px;
   font-weight: var(--font-bold);
-  color: var(--color-text-dim);
+  color: var(--color-gold-200);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: 1px;
+  line-height: 1;
+  margin-bottom: var(--space-1);
 }
 
-.stat-panel__stat-badge {
+.stat-panel__value {
+  width: 60px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: var(--font-bold);
+  text-align: right;
+  line-height: 1;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.stat-panel__value::-webkit-outer-spin-button,
+.stat-panel__value::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.stat-panel__value:focus {
+  outline: none;
+  color: var(--color-text-inverse);
+  text-shadow: 0 0 8px var(--theme-glow, var(--color-glow-gold));
+}
+
+.stat-panel__mod {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: var(--font-bold);
+  color: var(--color-gold-400);
+  line-height: 1;
+  margin-top: var(--space-1);
+}
+
+.stat-panel__stat--primary .stat-panel__mod {
+  color: var(--theme-primary, var(--color-gold-300));
+}
+
+/* BADGE */
+.stat-panel__badge {
   position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 14px;
-  height: 14px;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--theme-primary, var(--color-gold-400));
   border-radius: 50%;
   color: var(--color-bg-void);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-.stat-panel__stat-badge i {
-  font-size: 8px;
+.stat-panel__badge i {
+  font-size: 10px;
 }
 
 /* ==================== FANTASY THEME ==================== */

@@ -47,29 +47,27 @@ export default function StatPanel({
                 isPrimary ? 'stat-panel__stat--primary' : ''
               } ${isFlashing ? 'stat-panel__stat--flash' : ''}`}
             >
-              <div className="stat-panel__stat-icon">
+              <div className="stat-panel__icon">
                 <i className={`ra ${icons[stat] || 'ra-dice-one'}`} />
               </div>
               
-              <input
-                type="number"
-                min="1"
-                max="30"
-                value={value}
-                onChange={(e) => handleStatChange(stat, e.target.value)}
-                className="stat-panel__stat-value"
-              />
-              
-              <div className="stat-panel__stat-modifier">
-                {getModifier(value)}
+              <div className="stat-panel__info">
+                <div className="stat-panel__label">{stat}</div>
+                <input
+                  type="number"
+                  min="1"
+                  max="30"
+                  value={value}
+                  onChange={(e) => handleStatChange(stat, e.target.value)}
+                  className="stat-panel__value"
+                />
+                <div className="stat-panel__mod">
+                  {getModifier(value)}
+                </div>
               </div>
               
-              <label className="stat-panel__stat-label">
-                {stat}
-              </label>
-              
               {isPrimary && (
-                <div className="stat-panel__stat-badge">
+                <div className="stat-panel__badge">
                   <i className="ra ra-star" />
                 </div>
               )}

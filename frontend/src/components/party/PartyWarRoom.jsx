@@ -322,15 +322,17 @@ export default function PartyWarRoom({
                   ) : (
                     <i className={`ra ${icons[selectedChar.class] || icons[selectedChar.race] || 'ra-player'}`} />
                   )}
-                </div>
-                <div className="party-war-room__portrait-name">
-                  {selectedChar.name || 'Unnamed'}
-                </div>
-                {selectedChar.class && (
-                  <div className="party-war-room__portrait-class">
-                    {selectedChar.class}
+                  <div className="party-war-room__portrait-overlay">
+                    <div className="party-war-room__portrait-name">
+                      {selectedChar.name || 'Unnamed'}
+                    </div>
+                    {selectedChar.class && (
+                      <div className="party-war-room__portrait-class">
+                        {selectedChar.class}
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
 
               {/* Right: Form Fields */}
