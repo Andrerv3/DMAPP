@@ -39,6 +39,7 @@ export default function StatPanel({
           const value = stats[stat] || 10
           const isPrimary = stat === primaryStat
           const isFlashing = flashingStat === stat
+          const progressPercent = Math.min(100, Math.max(0, (value / 30) * 100))
           
           return (
             <div 
@@ -47,27 +48,41 @@ export default function StatPanel({
                 isPrimary ? 'stat-panel__stat--primary' : ''
               } ${isFlashing ? 'stat-panel__stat--flash' : ''}`}
             >
+              <div className="stat-panel__stat-bg" style={{ width: `${progressPercent}%` }} />
+              
               <div className="stat-panel__icon">
                 <i className={`ra ${icons[stat] || 'ra-dice-one'}`} />
               </div>
               
               <div className="stat-panel__info">
                 <div className="stat-panel__label">{stat}</div>
-                <input
-                  type="number"
-                  min="1"
-                  max="30"
-                  value={value}
-                  onChange={(e) => handleStatChange(stat, e.target.value)}
-                  className="stat-panel__value"
-                />
-                <div className="stat-panel__mod">
-                  {getModifier(value)}
+                
+                <div className="stat-panel__control">
+                  <button 
+                    type="button" 
+                    className="stat-panel__btn" 
+                    onClick={() => handleStatChange(stat, value - 1)}
+                  >
+                    <i className="ra ra-minus" />
+                  </button>
+                  
+                  <div className="stat-panel__value-display">
+                    <span className="stat-panel__value">{value}</span>
+                    <span className="stat-panel__mod">{getModifier(value)}</span>
+                  </div>
+                  
+                  <button 
+                    type="button" 
+                    className="stat-panel__btn" 
+                    onClick={() => handleStatChange(stat, value + 1)}
+                  >
+                    <i className="ra ra-plus" />
+                  </button>
                 </div>
               </div>
               
               {isPrimary && (
-                <div className="stat-panel__badge">
+                <div className="stat-panel__badge" title="Primary Stat">
                   <i className="ra ra-star" />
                 </div>
               )}

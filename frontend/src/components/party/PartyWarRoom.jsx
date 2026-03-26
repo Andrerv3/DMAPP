@@ -320,7 +320,13 @@ export default function PartyWarRoom({
                   {selectedChar.avatar ? (
                     <img src={selectedChar.avatar} alt={selectedChar.name} />
                   ) : (
-                    <i className={`ra ${icons[selectedChar.class] || icons[selectedChar.race] || 'ra-player'}`} />
+                    <div className="party-war-room__portrait-empty" onClick={() => alert('Portrait upload coming soon!')}>
+                      <i className={`ra ${icons[selectedChar.class] || icons[selectedChar.race] || 'ra-player'} party-war-room__portrait-watermark`} />
+                      <div className="party-war-room__portrait-upload-prompt">
+                        <i className="ra ra-camera" />
+                        <span>Upload Portrait</span>
+                      </div>
+                    </div>
                   )}
                   <div className="party-war-room__portrait-overlay">
                     <div className="party-war-room__portrait-name">

@@ -1,5 +1,5 @@
 // frontend/src/components/party/RuneSelector.jsx
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './RuneSelector.css'
 
 export default function RuneSelector({
@@ -12,6 +12,7 @@ export default function RuneSelector({
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const [hovered, setHovered] = useState(null)
+  const dropdownRef = useRef(null)
 
   const selectedOption = options.find(o => o.id === value)
 
@@ -20,15 +21,32 @@ export default function RuneSelector({
     setIsOpen(false)
   }
 
+  // Close on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false)
+      }
+    }
+    
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
+
   return (
-    <div className={`rune-selector rune-selector--${theme}`}>
+    <div className={`rune-selector rune-selector--${theme}`} ref={dropdownRef}>
       <label className="rune-selector__label">
-        <i className={`ra ${iconMap[value] || 'ra-question'}`} />
+        <i className={`ra ${iconMap[value] || 'ra-kaleidoscope'}`} />
         {label}
       </label>
 
       <button 
-        className={`rune-selector__trigger ${value ? 'rune-selector__trigger--has-value' : ''}`}
+        className={`rune-selector__trigger ${value ? 'rune-selector__trigger--has-value' : ''} ${isOpen ? 'rune-selector__trigger--open' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
         type="button"
       >
@@ -38,7 +56,7 @@ export default function RuneSelector({
             <span>{selectedOption.name}</span>
           </>
         ) : (
-          <span className="rune-selector__placeholder">Select...</span>
+          <span className="rune-selector__placeholder">Select {label}...</span>
         )}
         <i className={`ra ra-chevron-${isOpen ? 'up' : 'down'}`} />
       </button>

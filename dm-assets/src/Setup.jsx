@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSessionStore } from '../stores/session.js'
-import PartyBuilder from '../components/PartyBuilder.jsx'
 
 const GAME_SYSTEMS = [
   { id: 'dnd5e',      label: 'D&D 5e',      icon: 'dnd5e' },
@@ -20,8 +19,8 @@ const DEFAULT_FORM = {
   game_system: 'dnd5e',
   tone: 55,
   world: { name: '', setting: '', current_location: '' },
-  party: [],
-  activeCharacterId: null,
+  character: { name: '', class: '', race: '', background: '', level: 1, hp: 20, max_hp: 20, mana: 10,
+    stats: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 }, inventory: [] },
 }
 
 // SVG icon per system — inline for zero HTTP requests
@@ -100,21 +99,10 @@ export default function Setup() {
     })
   }
 
-  const handlePartyChange = ({ party, activeCharacterId }) => {
-    setForm(prev => ({ 
-      ...prev, 
-      party, 
-      activeCharacterId 
-    }))
-  }
-
   const toneLabel = TONE_LABELS[Math.round((form.tone / 100) * (TONE_LABELS.length - 1))]
 
   const handleStart = async () => {
-    const activeChar = form.party.find(c => c.id === form.activeCharacterId)
-    if (!activeChar?.name?.trim()) {
-      return alert('At least one character with a name is required')
-    }
+    if (!form.character.name.trim()) return alert('Character name is required')
     const session = await createSession(form)
     if (session) navigate(`/session/${session.session_id}`)
   }
@@ -195,17 +183,42 @@ export default function Setup() {
             </div>
           </>}
 
-          {/* Step 2: Party Builder (up to 5 characters) */}
+          {/* Step 2: Character */}
           {step === 2 && <>
-            <h1 className="panel-title">Assemble Your Party</h1>
-            <p className="section-label" style={{marginBottom:16}}>Create up to 5 characters. Select one as active.</p>
-            
-            <PartyBuilder 
-              gameSystem={form.game_system}
-              party={form.party}
-              onChange={handlePartyChange}
-            />
-
+            <h1 className="panel-title">Create Your Character</h1>
+            <div style={{display:'flex', flexDirection:'column', gap:14}}>
+              <div>
+                <p className="section-label">Character Name</p>
+                <input type="text" placeholder="Enter name..." value={form.character.name} onChange={e => set('character.name', e.target.value)} />
+              </div>
+              <div style={{display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:10}}>
+                <div><p className="section-label">Race</p><input type="text" placeholder="Human..." value={form.character.race} onChange={e => set('character.race', e.target.value)} /></div>
+                <div><p className="section-label">Class</p><input type="text" placeholder="Fighter..." value={form.character.class} onChange={e => set('character.class', e.target.value)} /></div>
+                <div><p className="section-label">Background</p><input type="text" placeholder="Acolyte..." value={form.character.background} onChange={e => set('character.background', e.target.value)} /></div>
+              </div>
+              <div>
+                <p className="section-label">Ability Scores</p>
+                <div style={{display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:8}}>
+                  {['str','dex','con','int','wis','cha'].map(stat => {
+                    const val = form.character.stats[stat] ?? 10
+                    const mod = Math.floor((val - 10) / 2)
+                    return (
+                      <div key={stat} className="stat-box">
+                        <span className="stat-abbr">{stat.toUpperCase()}</span>
+                        <input type="number" min="1" max="30" value={val}
+                          onChange={e => set(`character.stats.${stat}`, parseInt(e.target.value) || 10)}
+                          style={{background:'transparent', border:'none', color:'#e8e0d0', fontFamily:'Cinzel,serif', fontSize:22, fontWeight:700, textAlign:'center', width:'100%', padding:0}} />
+                        <span className={`stat-mod ${mod >= 0 ? 'positive' : 'negative'}`}>{mod >= 0 ? '+' : ''}{mod}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+              <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:10}}>
+                <div><p className="section-label">Max HP</p><input type="number" min="1" value={form.character.max_hp} onChange={e => { const v = parseInt(e.target.value); set('character.max_hp', v); set('character.hp', v); }} /></div>
+                <div><p className="section-label">Mana / SP</p><input type="number" min="0" value={form.character.mana} onChange={e => set('character.mana', parseInt(e.target.value))} /></div>
+              </div>
+            </div>
             <div style={{display:'flex', justifyContent:'space-between', marginTop:24}}>
               <button className="btn-primary" style={{background:'transparent', border:'1px solid #3a2e10', color:'#8a7030'}} onClick={() => setStep(1)}>← Back</button>
               <button className="btn-primary" onClick={() => setStep(3)}>Next: Define World</button>

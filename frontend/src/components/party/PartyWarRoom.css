@@ -171,6 +171,77 @@
   z-index: 1;
 }
 
+.party-war-room__portrait-empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0,0,0,0.2),
+    rgba(0,0,0,0.2) 10px,
+    rgba(0,0,0,0.4) 10px,
+    rgba(0,0,0,0.4) 20px
+  );
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.party-war-room__portrait-empty:hover {
+  background: rgba(201, 162, 39, 0.1);
+}
+
+.party-war-room__portrait-empty:hover .party-war-room__portrait-upload-prompt {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.party-war-room__portrait-empty:hover .party-war-room__portrait-watermark {
+  opacity: 0.05;
+  transform: scale(0.95);
+}
+
+.party-war-room__portrait-watermark {
+  position: absolute;
+  font-size: 110px !important;
+  color: var(--color-text-dim);
+  opacity: 0.15;
+  transition: all var(--transition-medium);
+}
+
+.party-war-room__portrait-upload-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  z-index: 2;
+  opacity: 0.7;
+  transform: translateY(4px);
+  transition: all var(--transition-medium);
+}
+
+.party-war-room__portrait-upload-prompt i {
+  font-size: 32px !important;
+  color: var(--theme-primary, var(--color-gold-400));
+  opacity: 1;
+}
+
+.party-war-room__portrait-upload-prompt span {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  color: var(--theme-primary, var(--color-gold-300));
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(0,0,0,0.7);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(201, 162, 39, 0.4);
+}
+
 .party-war-room__portrait-overlay {
   position: absolute;
   bottom: 0;

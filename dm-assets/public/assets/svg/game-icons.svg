@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+  <!-- D&D 5e: shield with dragon crest -->
+  <symbol id="icon-dnd5e" viewBox="0 0 44 44" fill="none">
+    <path d="M22 4 C22 4 18 8 14 10 C10 12 6 11 6 11 C6 11 8 15 8 20 C8 28 14 34 22 38 C30 34 36 28 36 20 C36 15 38 11 38 11 C38 11 34 12 30 10 C26 8 22 4 22 4Z" fill="#1c1204" stroke="#d4a017" stroke-width="1.5"/>
+    <path d="M22 9 C22 9 19 12 16.5 13.5 C14 15 12 14.5 12 14.5 C12 14.5 13 17 13 20 C13 26 17 30.5 22 33 C27 30.5 31 26 31 20 C31 17 32 14.5 32 14.5 C32 14.5 30 15 27.5 13.5 C25 12 22 9 22 9Z" fill="#141008" stroke="#a07010" stroke-width="0.8"/>
+    <path d="M18 16 C20 14 24 14 26 16 C27.5 17.5 27 20 25 21 L22 22 L19 21 C17 20 16.5 17.5 18 16Z" fill="none" stroke="#d4a017" stroke-width="0.8" opacity="0.7"/>
+    <text x="22" y="28" text-anchor="middle" font-family="Cinzel,serif" font-size="9" font-weight="700" fill="#d4a017">D&amp;D</text>
+  </symbol>
+
+  <!-- Pathfinder: crossed swords on shield -->
+  <symbol id="icon-pathfinder" viewBox="0 0 44 44" fill="none">
+    <path d="M22 6 L36 16 L34 30 L22 38 L10 30 L8 16 Z" fill="#141008" stroke="#8a6a18" stroke-width="1.2"/>
+    <line x1="15" y1="15" x2="29" y2="29" stroke="#c8961e" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="29" y1="15" x2="15" y2="29" stroke="#c8961e" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="22" cy="22" r="3" fill="#1a1208" stroke="#d4a017" stroke-width="1"/>
+    <path d="M15 15 L13 13 M29 15 L31 13 M15 29 L13 31 M29 29 L31 31" stroke="#8a6010" stroke-width="1" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Sci-Fi: rocket -->
+  <symbol id="icon-scifi" viewBox="0 0 44 44" fill="none">
+    <path d="M22 6 L28 18 L28 28 L22 32 L16 28 L16 18 Z" fill="#141008" stroke="#8a6a18" stroke-width="1"/>
+    <path d="M22 6 L26 16 L22 18 L18 16 Z" fill="#1e1508" stroke="#d4a017" stroke-width="0.8"/>
+    <ellipse cx="22" cy="21" rx="3" ry="4" fill="#0a0808" stroke="#a07010" stroke-width="0.8"/>
+    <path d="M16 28 L10 34 L16 32 Z" fill="#1a1008" stroke="#5a4010" stroke-width="0.8"/>
+    <path d="M28 28 L34 34 L28 32 Z" fill="#1a1008" stroke="#5a4010" stroke-width="0.8"/>
+    <path d="M18 30 L16 36 L22 34 L28 36 L26 30" fill="none" stroke="#c8961e" stroke-width="1" opacity="0.6"/>
+  </symbol>
+
+  <!-- Horror: ghost -->
+  <symbol id="icon-horror" viewBox="0 0 44 44" fill="none">
+    <path d="M14 22 C14 16 17.5 10 22 10 C26.5 10 30 16 30 22 L30 36 L26 33 L22 36 L18 33 L14 36 Z" fill="#141008" stroke="#8a6a18" stroke-width="1.2"/>
+    <circle cx="18.5" cy="22" r="2.5" fill="#0a0808" stroke="#6a5018" stroke-width="0.8"/>
+    <circle cx="25.5" cy="22" r="2.5" fill="#0a0808" stroke="#6a5018" stroke-width="0.8"/>
+    <path d="M18 27 Q22 30 26 27" fill="none" stroke="#5a4010" stroke-width="1" stroke-linecap="round"/>
+    <path d="M14 22 C12 20 11 17 13 15" stroke="#4a3010" stroke-width="0.8" fill="none" stroke-dasharray="2,2"/>
+    <path d="M30 22 C32 20 33 17 31 15" stroke="#4a3010" stroke-width="0.8" fill="none" stroke-dasharray="2,2"/>
+  </symbol>
+
+  <!-- Cyberpunk: circuit/globe -->
+  <symbol id="icon-cyberpunk" viewBox="0 0 44 44" fill="none">
+    <circle cx="22" cy="22" r="14" fill="#0d0c08" stroke="#3a3010" stroke-width="1"/>
+    <path d="M22 8 C22 8 22 22 22 36" stroke="#5a4810" stroke-width="0.8"/>
+    <path d="M8 22 L36 22" stroke="#5a4810" stroke-width="0.8"/>
+    <path d="M11 14 C15 16 18 22 22 22 C26 22 29 16 33 14" fill="none" stroke="#4a3808" stroke-width="0.8"/>
+    <path d="M11 30 C15 28 18 22 22 22 C26 22 29 28 33 30" fill="none" stroke="#4a3808" stroke-width="0.8"/>
+    <circle cx="30" cy="14" r="4" fill="#141008" stroke="#d4a017" stroke-width="1"/>
+    <path d="M28.5 14 L30 12 L31.5 14 L30 16 Z" fill="#d4a017" opacity="0.7"/>
+  </symbol>
+
+  <!-- Free Form: scroll -->
+  <symbol id="icon-freeform" viewBox="0 0 44 44" fill="none">
+    <path d="M13 10 C13 8 15 7 17 7 L31 7 C33 7 34 8 34 10 L34 36 C34 38 33 39 31 39 L13 39 C11 39 10 38 10 36 L10 10 Z" fill="#141008" stroke="#6a5018" stroke-width="1"/>
+    <path d="M10 10 C10 8 12 7 14 9 C16 11 16 12 16 12" fill="none" stroke="#8a6018" stroke-width="1"/>
+    <path d="M34 10 C34 8 32 7 30 9 C28 11 28 12 28 12" fill="none" stroke="#8a6018" stroke-width="1"/>
+    <line x1="16" y1="18" x2="28" y2="18" stroke="#5a4010" stroke-width="1" stroke-linecap="round"/>
+    <line x1="16" y1="22" x2="28" y2="22" stroke="#5a4010" stroke-width="1" stroke-linecap="round"/>
+    <line x1="16" y1="26" x2="24" y2="26" stroke="#5a4010" stroke-width="1" stroke-linecap="round"/>
+    <line x1="16" y1="30" x2="22" y2="30" stroke="#4a3810" stroke-width="1" stroke-linecap="round"/>
+  </symbol>
+
+</svg>

@@ -1,16 +1,14 @@
-/* DMAPP - Main Styles */
-/* This file imports all tokens and component styles */
+/* ============================================================
+   AI DUNGEON MASTER — Dark Fantasy Theme
+   Drop-in CSS for Setup.jsx + Session.jsx
+   Font: Cinzel + Crimson Text (load in index.html)
+   ============================================================ */
 
-/* 1. Core Tokens (colors, spacing, typography, effects) */
-@import './tokens.css';
+/* --- Google Fonts import (add to index.html <head>) ---
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+*/
 
-/* 2. Animations */
-@import './animations.css';
-
-/* ============================================
-   FANTASY THEME OVERRIDES (theme-fantasy.css)
-   ============================================ */
-
+/* ── TOKENS ────────────────────────────────────────────── */
 :root {
   --gold:        #d4a017;
   --gold-bright: #f0c840;
@@ -37,6 +35,16 @@
 
   --radius-panel: 4px;
   --radius-card:  3px;
+}
+
+/* ── RESET & BASE ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-base);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  min-height: 100dvh;
 }
 
 /* ── APP LAYOUT ─────────────────────────────────────────── */
@@ -565,144 +573,3 @@ textarea { resize: vertical; line-height: 1.6; }
   .game-grid { grid-template-columns: repeat(2, 1fr); }
   .panel-title { font-size: 16px; letter-spacing: 0.12em; }
 }
-
-/* ============================================
-   BASE RESET & DEFAULTS
-   ============================================ */
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--leading-normal);
-  color: var(--color-text-primary);
-  background: var(--color-bg-void);
-  min-height: 100vh;
-}
-
-/* Texture overlay for depth */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: var(--color-texture-noise);
-  opacity: 0.03;
-  pointer-events: none;
-  z-index: 0;
-}
-
-#root {
-  position: relative;
-  z-index: 1;
-}
-
-a {
-  color: var(--color-gold-400);
-  text-decoration: none;
-  transition: color var(--transition-normal);
-}
-
-a:hover {
-  color: var(--color-gold-200);
-}
-
-button {
-  font-family: inherit;
-  cursor: pointer;
-}
-
-input, textarea, select {
-  font-family: inherit;
-  font-size: inherit;
-}
-
-/* ============================================
-   LAYOUT STRUCTURE
-   ============================================ */
-
-/* Game Layout - 3 Panel */
-.game-layout {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.game-layout__panels {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-.game-layout__center {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: var(--color-bg-deep);
-  overflow: hidden;
-  position: relative;
-}
-
-/* Decorative center glow */
-.game-layout__center::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-glow-gold),
-    transparent
-  );
-  opacity: 0.5;
-}
-
-/* ============================================
-   SETUP PAGE — styles in pages/Setup.css
-   ============================================ */
-
-
-
-/* ============================================
-   UTILITY CLASSES
-   ============================================ */
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.gap-2 { gap: var(--space-2); }
-.gap-4 { gap: var(--space-4); }
-
-.w-full { width: 100%; }
-.h-full { height: 100%; }

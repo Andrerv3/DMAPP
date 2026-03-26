@@ -11,11 +11,11 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: var(--text-xs);
-  font-weight: var(--font-semibold);
+  font-size: 10px;
+  font-weight: var(--font-bold);
   color: var(--color-text-dim);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: var(--tracking-widest);
   margin-bottom: var(--space-2);
 }
 
@@ -30,46 +30,65 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  background: var(--color-bg-surface);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-md);
+  gap: var(--space-3);
+  padding: 0 var(--space-3);
+  height: 48px;
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
   color: var(--color-text-secondary);
   font-family: var(--font-body);
   font-size: var(--text-sm);
+  font-weight: var(--font-medium);
   cursor: pointer;
   transition: all var(--transition-fast);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .rune-selector__trigger:hover {
-  border-color: var(--color-border-medium);
+  border-color: var(--theme-primary, var(--color-gold-400));
   background: var(--color-bg-hover);
+}
+
+.rune-selector__trigger--open {
+  border-color: var(--theme-primary, var(--color-gold-500));
+  background: var(--color-bg-hover);
+  box-shadow: 0 0 0 1px var(--theme-primary, var(--color-gold-500)), 0 4px 12px rgba(0,0,0,0.5);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .rune-selector__trigger--has-value {
   color: var(--color-text-primary);
   border-color: var(--theme-border, var(--color-border-gold));
-  background: var(--theme-glow, var(--color-glow-gold));
+  background: linear-gradient(135deg, var(--color-bg-surface) 0%, var(--color-bg-deep) 100%);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
 }
 
 .rune-selector__trigger--has-value:hover {
   border-color: var(--theme-primary, var(--color-gold-400));
+  background: linear-gradient(135deg, var(--color-bg-hover) 0%, var(--color-bg-deep) 100%);
 }
 
 .rune-selector__trigger i:first-child {
-  font-size: 16px;
+  font-size: 20px;
+  color: var(--theme-primary, var(--color-gold-400));
+  filter: drop-shadow(0 0 4px rgba(201, 162, 39, 0.4));
 }
 
-.rune-selector__trigger i:last-child {
+.rune-selector__trigger .ra-chevron-down,
+.rune-selector__trigger .ra-chevron-up {
   margin-left: auto;
   font-size: 12px;
   opacity: 0.6;
+  color: var(--color-text-dim);
+  transition: transform var(--transition-fast);
 }
 
 .rune-selector__placeholder {
   color: var(--color-text-dim);
   font-style: italic;
+  font-weight: var(--font-normal);
 }
 
 /* ==================== DROPDOWN ==================== */
@@ -79,14 +98,22 @@
   top: 100%;
   left: 0;
   right: 0;
-  max-height: 220px;
+  max-height: 260px;
   overflow-y: auto;
-  background: var(--color-bg-surface);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
+  background: var(--color-bg-deep);
+  border: 1px solid var(--theme-primary, var(--color-gold-500));
+  border-top: none;
+  border-bottom-left-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.8), 0 0 12px var(--theme-glow, rgba(201, 162, 39, 0.15));
   z-index: var(--z-dropdown);
-  margin-top: var(--space-1);
+  animation: slideDownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: top;
+}
+
+@keyframes slideDownFade {
+  0% { opacity: 0; transform: scaleY(0.95); }
+  100% { opacity: 1; transform: scaleY(1); }
 }
 
 .rune-selector__empty {
@@ -94,6 +121,7 @@
   text-align: center;
   color: var(--color-text-dim);
   font-size: var(--text-sm);
+  font-style: italic;
 }
 
 /* ==================== OPTION ==================== */
@@ -102,10 +130,11 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
+  gap: var(--space-3);
+  padding: var(--space-3);
   background: transparent;
   border: none;
+  border-bottom: 1px solid var(--color-border-subtle);
   color: var(--color-text-secondary);
   font-family: var(--font-body);
   font-size: var(--text-sm);
@@ -114,15 +143,21 @@
   transition: all var(--transition-fast);
 }
 
+.rune-selector__option:last-child {
+  border-bottom: none;
+}
+
 .rune-selector__option:hover,
 .rune-selector__option--hovered {
   background: var(--color-bg-hover);
   color: var(--color-text-primary);
+  padding-left: var(--space-4); /* Subtle indent animation */
 }
 
 .rune-selector__option--selected {
   background: var(--theme-glow, rgba(201, 162, 39, 0.1));
   color: var(--theme-primary, var(--color-gold-400));
+  border-left: 3px solid var(--theme-primary, var(--color-gold-400));
 }
 
 .rune-selector__option--selected .rune-selector__bonus {
@@ -130,13 +165,24 @@
 }
 
 .rune-selector__option i:first-child {
-  font-size: 16px;
-  width: 20px;
+  font-size: 20px;
+  width: 24px;
   text-align: center;
+  color: inherit;
+  opacity: 0.8;
+  transition: transform var(--transition-fast);
+}
+
+.rune-selector__option:hover i:first-child {
+  transform: scale(1.1);
+  opacity: 1;
+  color: var(--theme-primary, var(--color-gold-400));
+  filter: drop-shadow(0 0 6px rgba(201, 162, 39, 0.6));
 }
 
 .rune-selector__option span {
   flex: 1;
+  font-weight: var(--font-medium);
 }
 
 .rune-selector__bonus {
@@ -145,22 +191,22 @@
   color: var(--color-success-400);
   font-family: var(--font-mono);
   white-space: nowrap;
+  background: rgba(0,0,0,0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
 /* ==================== FANTASY THEME ==================== */
 
 .rune-selector--fantasy .rune-selector__trigger--has-value {
   border-color: var(--fantasy-border-strong);
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.1), rgba(201, 162, 39, 0.05));
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.08), rgba(201, 162, 39, 0.02));
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5), inset 0 0 2px rgba(201, 162, 39, 0.5);
 }
 
 .rune-selector--fantasy .rune-selector__dropdown {
   border-color: var(--fantasy-border);
-}
-
-.rune-selector--fantasy .rune-selector__option--selected {
-  background: rgba(201, 162, 39, 0.15);
-  border-left: 3px solid var(--color-gold-400);
 }
 
 /* ==================== CYBER THEME ==================== */
@@ -169,18 +215,25 @@
   border-color: var(--cyber-border);
 }
 
+.rune-selector--cyber .rune-selector__trigger--open {
+  border-color: var(--cyber-primary);
+  box-shadow: 0 0 0 1px var(--cyber-primary), 0 4px 16px var(--cyber-glow);
+}
+
 .rune-selector--cyber .rune-selector__trigger--has-value {
   border-color: var(--cyber-border-strong);
-  background: linear-gradient(135deg, rgba(0, 255, 200, 0.1), rgba(0, 255, 200, 0.05));
+  background: linear-gradient(135deg, rgba(0, 255, 200, 0.08), rgba(0, 255, 200, 0.02));
   color: var(--cyber-primary);
 }
 
-.rune-selector--cyber .rune-selector__trigger--has-value i:first-child {
+.rune-selector--cyber .rune-selector__trigger i:first-child {
   color: var(--cyber-primary);
+  filter: drop-shadow(0 0 6px var(--cyber-glow));
 }
 
 .rune-selector--cyber .rune-selector__dropdown {
-  border-color: var(--cyber-border);
+  border-color: var(--cyber-primary);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.9), 0 0 16px rgba(0, 255, 200, 0.2);
 }
 
 .rune-selector--cyber .rune-selector__option--selected {
@@ -188,24 +241,45 @@
   border-left: 3px solid var(--cyber-primary);
 }
 
-.rune-selector--cyber .rune-selector__option--selected i:first-child {
-  color: var(--cyber-primary);
-}
-
 .rune-selector--cyber .rune-selector__bonus {
   color: var(--cyber-primary);
+  border-color: rgba(0, 255, 200, 0.2);
+}
+
+.rune-selector--cyber .rune-selector__option:hover i:first-child {
+  color: var(--cyber-primary);
+  filter: drop-shadow(0 0 8px var(--cyber-glow));
 }
 
 /* ==================== HORROR THEME ==================== */
 
+.rune-selector--horror .rune-selector__trigger--open {
+  border-color: var(--horror-primary);
+  box-shadow: 0 0 0 1px var(--horror-primary), 0 4px 16px var(--horror-glow);
+}
+
 .rune-selector--horror .rune-selector__trigger--has-value {
   border-color: var(--horror-border-strong);
-  background: linear-gradient(135deg, rgba(180, 0, 60, 0.1), rgba(180, 0, 60, 0.05));
+  background: linear-gradient(135deg, rgba(180, 0, 60, 0.08), rgba(180, 0, 60, 0.02));
+}
+
+.rune-selector--horror .rune-selector__trigger i:first-child {
+  color: var(--horror-primary);
+  filter: drop-shadow(0 0 6px var(--horror-glow));
+}
+
+.rune-selector--horror .rune-selector__dropdown {
+  border-color: var(--horror-primary);
 }
 
 .rune-selector--horror .rune-selector__option--selected {
   background: rgba(180, 0, 60, 0.15);
   border-left: 3px solid var(--horror-primary);
+}
+
+.rune-selector--horror .rune-selector__option:hover i:first-child {
+  color: var(--horror-primary);
+  filter: drop-shadow(0 0 8px var(--horror-glow));
 }
 
 /* ==================== SCROLLBAR ==================== */
@@ -224,5 +298,5 @@
 }
 
 .rune-selector__dropdown::-webkit-scrollbar-thumb:hover {
-  background: var(--color-border-gold);
+  background: var(--theme-primary, var(--color-gold-400));
 }
